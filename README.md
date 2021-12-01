@@ -52,6 +52,16 @@ yarn serve
 yarn build
 ```
 
+### 特别鸣谢
+
+感谢以下的项目,排名不分先后
+
+ - vue
+
+ - Ant-Design-Vue
+
+ - vue-vben-admin
+
 ### 开源协议
 
 *  `lakego-admin` 前端项目遵循 `Apache2` 开源协议发布，在保留本系统版权的情况下提供个人及商业免费使用。
