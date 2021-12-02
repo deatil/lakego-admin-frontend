@@ -147,6 +147,7 @@ export interface GlobConfig {
   // Project abbreviation
   shortName: string;
 }
+
 export interface GlobEnvConfig {
   // Site title
   VITE_GLOB_APP_TITLE: string;

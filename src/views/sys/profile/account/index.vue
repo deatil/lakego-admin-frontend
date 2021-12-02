@@ -1,44 +1,57 @@
 <template>
-  <PageWrapper title="修改当前用户密码" content="修改成功后会自动退出当前登录！">
-    <div class="py-8 bg-white flex flex-col justify-center items-center">
-      <BasicForm @register="register" />
-      <div class="flex justify-center">
-        <a-button @click="resetFields"> 重置 </a-button>
-        <a-button class="!ml-4" type="primary" @click="handleSubmit"> 确认 </a-button>
-      </div>
+  <ScrollContainer>
+    <div ref="wrapperRef" :class="prefixCls">
+      <Tabs tab-position="left" :tabBarStyle="tabBarStyle">
+        <template v-for="item in settingList" :key="item.key">
+          <TabPane :tab="item.name">
+            <component :is="item.component" />
+          </TabPane>
+        </template>
+      </Tabs>
     </div>
-  </PageWrapper>
+  </ScrollContainer>
 </template>
+
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import { PageWrapper } from '/@/components/Page';
-  import { BasicForm, useForm } from '/@/components/Form';
+  import { Tabs } from 'ant-design-vue';
 
-  import { formSchema } from './pwd.data';
+  import { ScrollContainer } from '/@/components/Container/index';
+  import { settingList } from './data';
+
+  import BaseSetting from './BaseSetting.vue';
+
   export default defineComponent({
-    name: 'ChangePassword',
-    components: { BasicForm, PageWrapper },
+    components: {
+      ScrollContainer,
+      Tabs,
+      TabPane: Tabs.TabPane,
+      BaseSetting,
+    },
     setup() {
-      const [register, { validate, resetFields }] = useForm({
-        size: 'large',
-        labelWidth: 100,
-        showActionButtonGroup: false,
-        schemas: formSchema,
-      });
-
-      async function handleSubmit() {
-        try {
-          const values = await validate();
-          const { passwordOld, passwordNew } = values;
-
-          // TODO custom api
-          console.log(passwordOld, passwordNew);
-          // const { router } = useRouter();
-          // router.push(pageEnum.BASE_LOGIN);
-        } catch (error) {}
-      }
-
-      return { register, resetFields, handleSubmit };
+      return {
+        prefixCls: 'account-setting',
+        settingList,
+        tabBarStyle: {
+          width: '220px',
+        },
+      };
     },
   });
 </script>
+
+<style lang="less">
+  .account-setting {
+    margin: 12px;
+    padding: 20px;
+    background-color: @component-background;
+
+    .base-title {
+      padding-left: 0;
+    }
+
+    .ant-tabs-tab-active {
+      background-color: @item-active-bg;
+    }
+  }
+</style>

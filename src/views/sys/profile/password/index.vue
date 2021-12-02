@@ -18,6 +18,7 @@
   import { PageWrapper } from '/@/components/Page';
   import { BasicForm, useForm } from '/@/components/Form';
   import { PageEnum } from '/@/enums/pageEnum';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
   import { useUserStore } from '/@/store/modules/user';
   import { updateProfilePassword } from '/@/api/sys/profile';
@@ -34,6 +35,7 @@
         schemas: formSchema,
       });
       
+      const { createMessage } = useMessage();
       const userStore = useUserStore();
 
       async function handleSubmit() {
@@ -53,6 +55,8 @@
    
           // 修改成功后跳转
           router.push(PageEnum.BASE_LOGIN);
+
+          createMessage.success('更新密码成功！');
         } catch (error) {}
       }
 

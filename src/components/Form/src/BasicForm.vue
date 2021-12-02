@@ -32,10 +32,12 @@
           <slot :name="item" v-bind="data || {}"></slot>
         </template>
       </FormAction>
+      
       <slot name="formFooter"></slot>
     </Row>
   </Form>
 </template>
+
 <script lang="ts">
   import type { FormActionType, FormProps, FormSchema } from './types/form';
   import type { AdvanceState } from './types/hooks';

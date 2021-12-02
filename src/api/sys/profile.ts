@@ -51,7 +51,7 @@ export function updateProfilePassword(params) {
  * @description: 获取账号权限列表
  */
 export function getProfileRules() {
-  return defHttp.patch<any>({ 
+  return defHttp.get<any>({ 
     url: Api.GetProfileRules,
   });
 }
