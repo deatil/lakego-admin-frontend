@@ -40,6 +40,9 @@ export const baseSetschemas: FormSchema[] = [
     field: 'introduce',
     component: 'InputTextArea',
     label: '个人简介',
-    colProps: { span: 18 },
+    colProps: { 
+      span: 18,
+      style: "height: 50px;",
+    },
   },
 ];

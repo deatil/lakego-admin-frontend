@@ -149,9 +149,10 @@ export class VAxios {
       method: 'POST',
       data: formData,
       headers: {
+        "Accept": "application/json, text/plain, */*",
         'Content-type': ContentTypeEnum.FORM_DATA,
         // @ts-ignore
-        ignoreCancelToken: true,
+        // ignoreCancelToken: true,
       },
     });
   }

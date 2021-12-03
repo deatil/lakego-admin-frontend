@@ -37,7 +37,7 @@
   import { baseSetschemas } from './data';
   import { useUserStore } from '/@/store/modules/user';
   import { uploadApi } from '/@/api/sys/upload';
-  import { updateProfileAvatar } from '/@/api/sys/profile';
+  import { updateProfile, updateProfileAvatar } from '/@/api/sys/profile';
 
   export default defineComponent({
     components: {
@@ -52,7 +52,7 @@
       const { createMessage } = useMessage();
       const userStore = useUserStore();
 
-      const [register, { setFieldsValue }] = useForm({
+      const [register, { setFieldsValue, getFieldsValue }] = useForm({
         labelWidth: 120,
         schemas: baseSetschemas,
         showActionButtonGroup: false,
@@ -70,19 +70,26 @@
         return avatar || headerImg;
       });
 
-      async function updateAvatar(src: string) {
+      async function updateAvatar({ source, data }) {
         const userinfo = userStore.getUserInfo;
 
-        userinfo.avatar = src;
-
+        userinfo.avatar = source;
         userStore.setUserInfo(userinfo);
 
         await updateProfileAvatar({
-          avatar: 123,
+          avatar: data.data.id,
         });
       }
 
-      function handleSubmit() {
+      async function handleSubmit() {
+        const data = getFieldsValue();
+        
+        await updateProfile({
+          nickname: data.nickname,
+          email: data.email,
+          introduce: data.introduce,
+        });
+
         createMessage.success('更新成功！');
       }
 
