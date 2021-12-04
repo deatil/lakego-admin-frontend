@@ -28,7 +28,7 @@
 
   const timeInfo = reactive({
     nowTime: "",
-    nowTimeCall: "",
+    nowTimeCall: "上午好",
   });
 
   const setTimeInfo = function() {
@@ -43,5 +43,5 @@
   }
   setTimeInfo();
 
-  const lastActive = parseTime(userStore.getUserInfo.last_active);
+  const lastActive = parseTime(userStore.getUserInfo?.last_active);
 </script>

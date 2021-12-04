@@ -36,7 +36,7 @@
   import headerImg from '/@/assets/images/header.jpg';
   import { baseSetschemas } from './data';
   import { useUserStore } from '/@/store/modules/user';
-  import { uploadApi } from '/@/api/sys/upload';
+  import { uploadImgApi } from '/@/api/sys/upload';
   import { updateProfile, updateProfileAvatar } from '/@/api/sys/profile';
 
   export default defineComponent({
@@ -96,7 +96,7 @@
       return {
         avatar,
         register,
-        uploadApi: uploadApi as any,
+        uploadApi: uploadImgApi as any,
         updateAvatar,
         handleSubmit,
       };

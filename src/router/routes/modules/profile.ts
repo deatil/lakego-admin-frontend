@@ -2,7 +2,7 @@ import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
 
-const dashboard: AppRouteModule = {
+const profile: AppRouteModule = {
   path: '/profile',
   name: 'Profile',
   component: LAYOUT,
@@ -18,7 +18,7 @@ const dashboard: AppRouteModule = {
     {
       path: 'account',
       name: 'Account',
-      component: () => import('/@/views/sys/profile/account/index.vue'),
+      component: () => import('/@/views/admin/profile/account/index.vue'),
       meta: {
         title: "我的信息",
       },
@@ -26,7 +26,7 @@ const dashboard: AppRouteModule = {
     {
       path: 'password',
       name: 'Password',
-      component: () => import('/@/views/sys/profile/password/index.vue'),
+      component: () => import('/@/views/admin/profile/password/index.vue'),
       meta: {
         title: "更改密码",
       },
@@ -34,4 +34,4 @@ const dashboard: AppRouteModule = {
   ],
 };
 
-export default dashboard;
+export default profile;
