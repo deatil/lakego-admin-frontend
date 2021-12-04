@@ -1,16 +1,11 @@
 import { defHttp } from '/@/utils/http/axios';
 
-enum Api {
-  GetSytemInfo = '/system/info',
-  GetSytemRules = '/system/rules',
-}
-
 /**
  * @description: 获取系统详情
  */
 export function getSytemInfo() {
   return defHttp.get<any>({ 
-    url: Api.GetSytemInfo 
+    url: '/system/info',
   });
 }
 
@@ -19,7 +14,7 @@ export function getSytemInfo() {
  */
 export function getSytemRules() {
   return defHttp.get<any>({ 
-    url: Api.GetSytemRules 
+    url: '/system/rules',
   });
 }
 

@@ -13,20 +13,13 @@ import {
   ErrorMessageMode 
 } from '/#/axios';
 
-enum Api {
-  Captcha = '/passport/captcha',
-  Login = '/passport/login',
-  Logout = '/passport/logout',
-  RefreshToken = '/passport/refresh-token',
-}
-
 /**
  * @description: 验证码
  */
 export function captcha(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<CaptchaResultModel>(
     { 
-      url: Api.Captcha 
+      url: '/passport/captcha', 
     },
     {
       isReturnNativeResponse: true,
@@ -41,7 +34,7 @@ export function captcha(mode: ErrorMessageMode = 'modal') {
 export function login(params: LoginParams, header, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<LoginResultModel>(
     {
-      url: Api.Login,
+      url: '/passport/login',
       headers: header,
       params,
     },
@@ -56,7 +49,7 @@ export function login(params: LoginParams, header, mode: ErrorMessageMode = 'mod
  */
 export function logout(params) {
   return defHttp.delete({ 
-    url: Api.Logout,
+    url: '/passport/logout',
     params,
   });
 }
@@ -67,7 +60,7 @@ export function logout(params) {
 export function refreshToken(params: RefreshTokenParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.put<RefreshTokenResultModel>(
     { 
-      url: Api.RefreshToken,
+      url: '/passport/refresh-token',
       params,
     },
     {

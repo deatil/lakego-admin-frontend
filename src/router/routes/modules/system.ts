@@ -16,7 +16,7 @@ const system: AppRouteModule = {
     {
       path: 'attachment',
       name: 'Attachment',
-      component: () => import('/@/views/admin/attachment/index.vue'),
+      component: () => import('/@/views/admin/attachment/list/index.vue'),
       meta: {
         title: "附件管理",
       },
@@ -24,7 +24,7 @@ const system: AppRouteModule = {
     {
       path: 'actionlog',
       name: 'Actionlog',
-      component: () => import('/@/views/admin/actionlog/index.vue'),
+      component: () => import('/@/views/admin/actionlog/list/index.vue'),
       meta: {
         title: "操作日志",
       },

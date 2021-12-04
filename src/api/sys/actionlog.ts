@@ -6,18 +6,13 @@ import {
   ErrorMessageMode 
 } from '/#/axios';
 
-enum Api {
-  ActionLogList = '/action-log',
-  ClearActionLog = '/action-log/clear',
-}
-
 /**
  * @description: 获取日志列表
  */
 export function getActionLogList(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<any>(
     { 
-      url: Api.ActionLogList 
+      url: '/action-log',
     },
     {
       errorMessageMode: mode,
@@ -30,6 +25,6 @@ export function getActionLogList(mode: ErrorMessageMode = 'modal') {
  */
 export function clearActionLog() {
   return defHttp.delete({ 
-    url: Api.ClearActionLog,
+    url: '/action-log/clear',
   });
 }
