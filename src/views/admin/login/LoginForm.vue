@@ -72,8 +72,8 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   //import { onKeyStroke } from '@vueuse/core';
 
-  import defaultCaptcha from "/@/assets/lakego/captcha.png";
   import { captcha } from '/@/api/sys/passport';
+  import defaultCaptcha from "/@/assets/lakego/captcha.png";
 
   const FormItem = Form.Item;
   const InputPassword = Input.Password;

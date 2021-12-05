@@ -24,6 +24,7 @@
   import { updateProfilePassword } from '/@/api/sys/profile';
 
   import { formSchema } from './pwd.data';
+  
   export default defineComponent({
     name: 'ChangePassword',
     components: { BasicForm, PageWrapper },
