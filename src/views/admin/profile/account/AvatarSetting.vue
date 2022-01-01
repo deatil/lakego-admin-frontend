@@ -1,19 +1,21 @@
 <template>
-  <CollapseContainer title="基本设置" :canExpan="false">
+  <CollapseContainer title="头像设置" :canExpan="false">
     <a-row :gutter="24">
-      <a-col :span="22">
-        <BasicForm @register="register" />
+      <a-col :span="10">
+        <div class="change-avatar">
+          <div class="mb-2">头像</div>
+          <CropperAvatar
+            :uploadApi="uploadApi"
+            :value="avatar"
+            btnText="更换头像"
+            :btnProps="{ preIcon: 'ant-design:cloud-upload-outlined' }"
+            @change="updateAvatar"
+            width="150"
+          />
+        </div>
       </a-col>
     </a-row>
 
-    <a-row :gutter="24" class="profile-button">
-      <a-col :span="4">
-      </a-col>
-      <a-col :span="20">
-        <Button type="primary" @click="handleSubmit"> 更新基本信息 </Button>
-      </a-col>
-    </a-row>
-  
   </CollapseContainer>
 </template>
 
@@ -24,13 +26,11 @@
   import { CollapseContainer } from '/@/components/Container';
   import { CropperAvatar } from '/@/components/Cropper';
 
-  import { useMessage } from '/@/hooks/web/useMessage';
-
   import headerImg from '/@/assets/images/header.jpg';
   import { baseSetschemas } from './data';
   import { useUserStore } from '/@/store/modules/user';
   import { uploadImgApi } from '/@/api/sys/upload';
-  import { updateProfile } from '/@/api/sys/profile';
+  import { updateProfileAvatar } from '/@/api/sys/profile';
 
   export default defineComponent({
     components: {
@@ -42,10 +42,9 @@
       CropperAvatar,
     },
     setup() {
-      const { createMessage } = useMessage();
       const userStore = useUserStore();
 
-      const [register, { setFieldsValue, getFieldsValue }] = useForm({
+      const [register, { setFieldsValue }] = useForm({
         labelWidth: 120,
         schemas: baseSetschemas,
         showActionButtonGroup: false,
@@ -63,23 +62,26 @@
         return avatar || headerImg;
       });
 
-      async function handleSubmit() {
-        const data = getFieldsValue();
-        
-        await updateProfile({
-          nickname: data.nickname,
-          email: data.email,
-          introduce: data.introduce,
-        });
+      async function updateAvatar({ source, data }) {
+        if (! data.success) {
+          return;
+        }
 
-        createMessage.success('更新成功！');
+        const userinfo = userStore.getUserInfo;
+
+        userinfo.avatar = source;
+        userStore.setUserInfo(userinfo);
+
+        await updateProfileAvatar({
+          avatar: data.data.id,
+        });
       }
 
       return {
         avatar,
         register,
         uploadApi: uploadImgApi as any,
-        handleSubmit,
+        updateAvatar,
       };
     },
   });
@@ -92,8 +94,5 @@
       margin-bottom: 15px;
       border-radius: 50%;
     }
-  }
-  .profile-button {
-    margin-top: 45px;
   }
 </style>

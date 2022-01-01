@@ -1,11 +1,6 @@
 <template>
   <div class="p-4">
     <BasicTable @register="registerTable">
-      <template #toolbar>
-        <a-button type="primary" @click="handleReloadCurrent"> 刷新当前页 </a-button>
-        <a-button type="primary" @click="handleReload"> 刷新并返回第一页 </a-button>
-      </template>
-
       <template #size="{ record }"> 
         {{ renderSize(record.size) }} 
       </template>
@@ -36,12 +31,6 @@
               onClick: handleDetail.bind(null, record),
               // auth: 'super',
             },
-           {
-              label: '编辑',
-              icon: 'ion:settings-outline',
-              onClick: handleEdit.bind(null, record),
-              // auth: 'other', // 根据权限控制是否显示: 无权限，不显示
-            },
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
@@ -54,10 +43,14 @@
 
     </BasicTable>
   </div>
+
+  <Modal4 @register="register4" />
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { 
+    defineComponent, 
+  } from 'vue';
   import { Tag } from 'ant-design-vue';
   import { 
     BasicTable, 
@@ -69,17 +62,31 @@
     renderSize 
   } from '/@/utils';
   
-  import { getAttachmentList } from '/@/api/sys/attachment';
+  import { 
+    getAttachmentList,
+    getAttachment,
+    enableAttachment,
+    disableAttachment,
+    deleteAttachment,
+    getAttachmentDowncode,
+    getAttachmentDownloadUrl
+  } from '/@/api/sys/attachment';
 
-  import { tableColumns } from './data/columns';
+  import { useModal } from '/@/components/Modal';
+  import Modal4 from './Modal4.vue';
+
+  import { tableColumns, getFormConfig } from './data/columns';
 
   export default defineComponent({
     components: { 
       BasicTable, 
       Tag, 
       TableAction,
+      Modal4,
     },
     setup() {
+      const [register4, { openModal: openModal4 }] = useModal();
+
       const [registerTable, { reload }] = useTable({
         title: '附件管理',
         titleHelpMessage: '管理系统的相关附件',
@@ -92,6 +99,7 @@
           fullScreen: true, 
         },
         useSearchForm: true,
+        formConfig: getFormConfig(),
         rowKey: 'id',
 
         // 分页
@@ -125,7 +133,7 @@
 
         // 额外的请求参数
         searchInfo: {
-          "keywords": "123",
+          // "keywords": "123",
         },
         // 默认的排序参数
         defSort: {},
@@ -141,23 +149,21 @@
         },
       });
 
-      function handleReloadCurrent() {
-        reload();
-      }
-
-      function handleReload() {
-        reload({
-          page: 1,
+      function send() {
+        openModal4(true, {
+          data: 'content',
+          info: 'Info',
         });
       }
 
       // 详情
       function handleDetail(record: Recordable) {
         console.log('点击了详情', record);
+
+        send();
       }
-      function handleEdit(record: Recordable) {
-        console.log('点击了编辑', record);
-      }
+
+      // 删除
       function handleDelete(record: Recordable) {
         console.log('点击了删除', record);
       }
@@ -165,15 +171,14 @@
       return {
         registerTable,
 
-        handleReloadCurrent,
-        handleReload,
-
         handleDetail,
-        handleEdit,
         handleDelete,
 
         parseTime, 
         renderSize,
+
+        register4,
+        openModal4,
       };
     },
   });

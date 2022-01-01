@@ -92,6 +92,11 @@
       );
 
       function handleUploadSuccess({ source, data }) {
+        if (! data.success) {
+          createMessage.error("上传失败，原因为：" + data.message);
+          return ;
+        }
+
         sourceValue.value = source;
         emit('change', { source: source, data: data });
         createMessage.success(t('component.cropper.uploadSuccess'));

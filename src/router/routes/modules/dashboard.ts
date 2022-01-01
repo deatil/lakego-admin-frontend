@@ -16,7 +16,7 @@ const dashboard: AppRouteModule = {
   children: [
     {
       path: 'index',
-      name: 'index',
+      name: 'DashboardIndex',
       component: () => import('/@/views/dashboard/index/index.vue'),
       meta: {
         // affix: true,

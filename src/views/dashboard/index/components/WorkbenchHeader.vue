@@ -4,7 +4,7 @@
     <div class="md:ml-6 flex flex-col justify-center md:mt-0 mt-2">
       <h1 class="md:text-lg text-md">{{ timeInfo.nowTimeCall }}好, {{ userinfo.nickname }}！</h1>
       <span class="text-secondary"> 当前时间: {{ timeInfo.nowTime }}</span>
-      <span class="text-secondary"> 你上次登陆: {{ lastActive }} </span>
+      <span class="text-secondary"> 上次登陆: {{ lastActive }} </span>
     </div>
 
     <div class="flex flex-1 justify-end md:mt-0 mt-4">

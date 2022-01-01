@@ -23,6 +23,7 @@
   import { settingList } from './data';
 
   import BaseSetting from './BaseSetting.vue';
+  import AvatarSetting from './AvatarSetting.vue';
 
   export default defineComponent({
     components: {
@@ -30,6 +31,7 @@
       Tabs,
       TabPane: Tabs.TabPane,
       BaseSetting,
+      AvatarSetting,
       PageWrapper,
     },
     setup() {

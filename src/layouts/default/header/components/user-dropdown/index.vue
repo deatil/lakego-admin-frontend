@@ -13,7 +13,7 @@
       <Menu @click="handleMenuClick">
         <MenuItem
           key="chprofile"
-          text="账号信息"
+          text="我的信息"
           icon="ion:settings-outline"
         />
         <MenuItem

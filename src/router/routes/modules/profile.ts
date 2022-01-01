@@ -17,7 +17,7 @@ const profile: AppRouteModule = {
   children: [
     {
       path: 'account',
-      name: 'Account',
+      name: 'ProfileAccount',
       component: () => import('/@/views/admin/profile/account/index.vue'),
       meta: {
         title: "我的信息",
@@ -25,7 +25,7 @@ const profile: AppRouteModule = {
     },
     {
       path: 'password',
-      name: 'Password',
+      name: 'ProfilePassword',
       component: () => import('/@/views/admin/profile/password/index.vue'),
       meta: {
         title: "更改密码",

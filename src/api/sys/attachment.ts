@@ -6,6 +6,10 @@ import {
   ErrorMessageMode 
 } from '/#/axios';
 
+import { useGlobSetting } from '/@/hooks/setting';
+
+const { apiUrl = '' } = useGlobSetting();
+
 /**
  * @description: 获取附件列表
  */
@@ -69,8 +73,12 @@ export function getAttachmentDowncode(id: string) {
 /**
  * @description: 下载附件
  */
-export function downloadAttachment(code: string) {
-  return defHttp.get({ 
-    url: `/attachment/download/${code}`,
-  });
+export function getAttachmentDownloadUrl(code: string) {
+  let baseUrl = apiUrl;
+  
+  if (baseUrl.substring(baseUrl.length, baseUrl.length - 1) == '/') {
+    baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+  }
+
+  return baseUrl + '/attachment/download/' + code;
 }
