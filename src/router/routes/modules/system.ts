@@ -21,14 +21,6 @@ const system: AppRouteModule = {
         title: "附件管理",
       },
     },
-    {
-      path: 'actionlog',
-      name: 'Actionlog',
-      component: () => import('/@/views/admin/actionlog/list/index.vue'),
-      meta: {
-        title: "操作日志",
-      },
-    },
   ],
 };
 

@@ -525,8 +525,7 @@ export function getNowTime() {
   var nowTime = dateFilter(year) + "年" 
     + dateFilter(month) + "月" 
     + dateFilter(date) + "日 " 
-    + dateFilter(hour)
-    + dateFilter(minute) + ":" 
+    + dateFilter(hour) + ":" 
     + dateFilter(minute) + ":" 
     + dateFilter(second) + " "
     + week;
