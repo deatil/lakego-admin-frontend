@@ -1,25 +1,14 @@
 <template>
   <div class="p-4">
     <BasicTable @register="registerTable">
-      <template #size="{ record }"> 
-        {{ renderSize(record.size) }} 
+      <template #method="{ record }">
+        <Tag :color="methodFilter(record.method)">
+          {{ record.method }}
+        </Tag>
       </template>
 
-      <template #add_time="{ record }">
-        {{ parseTime(record.add_time) }} 
-      </template>
-
-      <template #status="{ record }">
-        <template v-if="record.status == 1">
-          <Tag color="green">
-            启用
-          </Tag>
-        </template>
-        <template v-else>
-          <Tag color="red">
-            禁用
-          </Tag>
-        </template>
+      <template #time="{ record }">
+        {{ parseTime(record.time) }} 
       </template>
 
       <template #action="{ record }">
@@ -27,31 +16,33 @@
           :actions="[
             {
               label: '详情',
-              icon: 'ion:settings-outline',
+              icon: 'ant-design:eye-outlined',
               onClick: handleDetail.bind(null, record),
-              // auth: 'super',
-            },
-            {
-              label: '删除',
-              icon: 'ic:outline-delete-outline',
-              onClick: handleDelete.bind(null, record),
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+              ifShow: true,
+              // auth: 'super', 
             },
           ]"
         />
       </template>
 
+      <template #toolbar>
+        <a-button type="danger" @click="handleClearLog">清除日志</a-button>
+      </template>
+
     </BasicTable>
   </div>
 
-  <Modal4 @register="register4" />
+  <Detail @register="registerDetail" />
 </template>
 
 <script lang="ts">
   import { 
+    h,
     defineComponent, 
   } from 'vue';
-  import { Tag } from 'ant-design-vue';
+  import { 
+    Tag 
+  } from 'ant-design-vue';
   import { 
     BasicTable, 
     useTable, 
@@ -61,36 +52,39 @@
     parseTime, 
     renderSize 
   } from '/@/utils';
+  import { 
+    useMessage 
+  } from '/@/hooks/web/useMessage';
   
   import { 
-    getAttachmentList,
-    getAttachment,
-    enableAttachment,
-    disableAttachment,
-    deleteAttachment,
-    getAttachmentDowncode,
-    getAttachmentDownloadUrl
-  } from '/@/api/sys/attachment';
+    getActionLogList,
+    clearActionLog,
+  } from '/@/api/sys/actionlog';
 
-  import { useModal } from '/@/components/Modal';
-  import Modal4 from './Modal4.vue';
+  import { 
+    useModal 
+  } from '/@/components/Modal';
+  import Detail from './Detail.vue';
 
-  import { tableColumns, getFormConfig } from './data/columns';
+  import { 
+    tableColumns, 
+    getFormConfig 
+  } from './data/columns';
 
   export default defineComponent({
     components: { 
       BasicTable, 
       Tag, 
       TableAction,
-      Modal4,
+      Detail,
     },
     setup() {
-      const [register4, { openModal: openModal4 }] = useModal();
+      const [registerDetail, { openModal: openDetail }] = useModal();
 
       const [registerTable, { reload }] = useTable({
-        title: '附件管理',
-        titleHelpMessage: '管理系统的相关附件',
-        api: getAttachmentList,
+        title: '操作日志',
+        titleHelpMessage: '管理系统产生的操作日志',
+        api: getActionLogList,
 
         loading: true,
         bordered: true,
@@ -99,13 +93,14 @@
           fullScreen: true, 
         },
         useSearchForm: true,
+        canResize: false,
         formConfig: getFormConfig(),
         rowKey: 'id',
 
         // 分页
         pagination: { 
-          pageSize: 10, 
-          total: 100,
+          pageSize: 20, 
+          // total: 100,
           current: 1,
           showQuickJumper: true,
         },
@@ -149,36 +144,55 @@
         },
       });
 
-      function send() {
-        openModal4(true, {
-          data: 'content',
-          info: 'Info',
-        });
-      }
-
       // 详情
       function handleDetail(record: Recordable) {
-        console.log('点击了详情', record);
-
-        send();
+        openDetail(true, record);
       }
 
       // 删除
-      function handleDelete(record: Recordable) {
-        console.log('点击了删除', record);
+      function handleClearLog() {
+        const { createConfirm, notification } = useMessage();
+
+        createConfirm({
+          iconType: 'warning',
+          title: () => h('span', '提示'),
+          content: () => h('span', '你确定要清除操作日志吗？'),
+          onOk: async () => {
+            clearActionLog().then(function() {
+              notification.success({message: '清除操作日志成功！'});
+              
+              reload();
+            });
+          },
+        });
+      }
+
+      function methodFilter(method) {
+        const methodMap = {
+          'GET': 'success',
+          'HEAD': 'default',
+          'POST': 'warning',
+          'PUT': 'warning',
+          'DELETE': 'red',
+          'PATCH': 'error',
+          'OPTIONS': 'default'
+        }
+        return methodMap[method]
       }
 
       return {
         registerTable,
 
         handleDetail,
-        handleDelete,
+        handleClearLog,
 
         parseTime, 
         renderSize,
 
-        register4,
-        openModal4,
+        registerDetail,
+        openDetail,
+
+        methodFilter,
       };
     },
   });

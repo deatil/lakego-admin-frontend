@@ -29,7 +29,7 @@ export function getAttachmentList(params, mode: ErrorMessageMode = 'modal') {
  * @description: 获取附件
  */
 export function getAttachment(id: string) {
-  return defHttp.delete({
+  return defHttp.get({
     url: `/attachment/${id}`,
   });
 }

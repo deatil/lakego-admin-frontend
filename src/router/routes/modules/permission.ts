@@ -16,7 +16,7 @@ const system: AppRouteModule = {
     {
       path: 'admin',
       name: 'Admin',
-      component: () => import('/@/views/admin/admin/list/index.vue'),
+      component: () => import('/@/views/admin/admin/index.vue'),
       meta: {
         title: "管理员",
       },
@@ -35,14 +35,6 @@ const system: AppRouteModule = {
       component: () => import('/@/views/admin/auth-group/list/index.vue'),
       meta: {
         title: "权限路由",
-      },
-    },
-    {
-      path: 'action-log',
-      name: 'ActionLog',
-      component: () => import('/@/views/admin/action-log/list/index.vue'),
-      meta: {
-        title: "操作日志",
       },
     },
   ],
