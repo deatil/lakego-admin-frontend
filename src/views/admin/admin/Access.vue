@@ -11,7 +11,7 @@
       show-icon
     />
 
-    <div class="mb-4">
+    <div class="mb-4 mt-4">
       <a-button @click="expandAll(true)" class="mr-2"> 展开全部 </a-button>
       <a-button @click="expandAll(false)" class="mr-2"> 折叠全部 </a-button>
       <a-button @click="checkAll(true)" class="mr-2"> 全选 </a-button>
@@ -54,7 +54,7 @@
       const treeRef = ref<Nullable<TreeActionType>>(null);
       const treeData = ref<TreeItem[]>([]);
       const modelRef = ref({});
-      const tipRef = ref({});
+      const tipRef = ref("");
 
       const [register, { closeModal }] = useModalInner((data) => {
         data && onDataReceive(data);
@@ -131,13 +131,3 @@
     },
   });
 </script>
-
-<style lang="less" scoped>
-  .change-avatar {
-    img {
-      display: block;
-      margin-bottom: 15px;
-      border-radius: 50%;
-    }
-  }
-</style>
