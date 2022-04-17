@@ -24,11 +24,10 @@ export function getAdminList(params: any, mode: ErrorMessageMode = 'modal') {
 /**
  * @description: 获取管理员分组
  */
-export function getAdminGroups(params: any, mode: ErrorMessageMode = 'modal') {
+export function getAdminGroups(mode: ErrorMessageMode = 'modal') {
   return defHttp.get(
     { 
       url: '/admin/groups',
-      params,
     },
     {
       errorMessageMode: mode,

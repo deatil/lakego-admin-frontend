@@ -22,8 +22,6 @@
     updataAdmin,
   } from '/@/api/sys/admin';
 
-  const { createMessage } = useMessage();
-
   const schemas: FormSchema[] = [
     {
       field: 'name',
@@ -82,8 +80,9 @@
       userData: { type: Object },
     },
     setup(props) {
-      let id;
+      const { createMessage } = useMessage();
 
+      const id = ref();
       const modelRef = ref({});
 
       const [register, { closeModal }] = useModalInner((data) => {
@@ -96,13 +95,10 @@
           validate,
         },
       ] = useForm({
-        labelWidth: 120,
+        layout: "vertical",
         schemas,
         showActionButtonGroup: false,
         autoSubmitOnEnter: true,
-        actionColOptions: {
-          span: 24,
-        },
         submitFunc: handleOk,
       });
 
@@ -111,7 +107,7 @@
         try {
           const data = await validate();
 
-          updataAdmin(id, {
+          updataAdmin(id.value, {
             "name": data.name,
             "nickname": data.nickname,
             "email": data.email,
@@ -127,7 +123,7 @@
       }
 
       function onDataReceive(data) {
-        id = data.id;
+        id.value = data.id;
 
         modelRef.value = data;
       }

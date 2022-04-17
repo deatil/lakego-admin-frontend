@@ -19,11 +19,10 @@
   import { useMessage } from '/@/hooks/web/useMessage';
 
   import { MD5 } from 'crypto-js';
+  
   import { 
     updatePassword,
   } from '/@/api/sys/admin';
-
-  const { createMessage } = useMessage();
 
   const schemas: FormSchema[] = [
     {
@@ -35,10 +34,17 @@
     },
     {
       field: 'password',
-      component: 'InputPassword',
       label: '新的密码',
-      defaultValue: '',
-      required: true,
+      component: 'StrengthMeter',
+      componentProps: {
+        placeholder: '新密码',
+      },
+      rules: [
+        {
+          required: true,
+          message: '请输入新密码',
+        },
+      ],
     },
   ];
   
@@ -51,6 +57,8 @@
       userData: { type: Object },
     },
     setup(props) {
+      const { createMessage } = useMessage();
+
       const modelRef = ref({});
 
       const [register, { closeModal }] = useModalInner((data) => {
@@ -63,13 +71,10 @@
           validate,
         },
       ] = useForm({
-        labelWidth: 120,
+        layout: "vertical",
         schemas,
         showActionButtonGroup: false,
         autoSubmitOnEnter: true,
-        actionColOptions: {
-          span: 10,
-        },
         submitFunc: handleOk,
       });
 

@@ -52,10 +52,12 @@ export const tableColumns: BasicColumn[] = [
   {
     title: '状态',
     dataIndex: 'status',
-    width: 60,
-    slots: { 
-      customRender: 'status', 
+    edit: true,
+    editComponent: 'Switch',
+    editValueMap: (value) => {
+      return value ? '启用' : '禁用';
     },
+    width: 80,
   },
 ];
 

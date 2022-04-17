@@ -24,11 +24,10 @@ export function getAuthGroupList(params: any, mode: ErrorMessageMode = 'modal') 
 /**
  * @description: 获取权限分组树
  */
-export function getAuthGroupTree(params: any, mode: ErrorMessageMode = 'modal') {
+export function getAuthGroupTree(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<any>(
     { 
       url: '/auth/group/tree',
-      params,
     },
     {
       errorMessageMode: mode,

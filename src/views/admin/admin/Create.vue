@@ -24,10 +24,6 @@
     createAdmin,
   } from '/@/api/sys/admin';
 
-  const { createMessage } = useMessage();
-
-  const userStore = useUserStore();
-
   const schemas: FormSchema[] = [
     {
       field: 'name',
@@ -102,6 +98,9 @@
       userData: { type: Object },
     },
     setup(props) {
+      const { createMessage } = useMessage();
+      const userStore = useUserStore();
+      
       const modelRef = ref({});
 
       const [
@@ -111,13 +110,10 @@
           updateSchema,
         },
       ] = useForm({
-        labelWidth: 120,
+        layout: "vertical",
         schemas,
         showActionButtonGroup: false,
         autoSubmitOnEnter: true,
-        actionColOptions: {
-          span: 24,
-        },
         submitFunc: handleOk,
       });
 

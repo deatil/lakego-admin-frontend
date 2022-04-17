@@ -81,7 +81,7 @@
       BasicForm 
     },
     props: {
-      userData: { type: Object },
+      data: { type: Object },
     },
     setup(props) {
       const modelRef = ref({});
@@ -93,12 +93,15 @@
           // setProps
         },
       ] = useForm({
-        labelWidth: 120,
+        layout: "vertical",
         schemas,
         showActionButtonGroup: false,
+        /*
+        labelWidth: 120,
         actionColOptions: {
           span: 24,
         },
+        */
       });
 
       const [register] = useModalInner((data) => {
@@ -115,7 +118,7 @@
       }
 
       function handleVisibleChange(v) {
-        v && props.userData && nextTick(() => onDataReceive(props.userData));
+        v && props.data && nextTick(() => onDataReceive(props.data));
       }
 
       return { 

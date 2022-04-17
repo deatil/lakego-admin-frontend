@@ -1,8 +1,16 @@
 <template>
   <div class="p-4">
-    <BasicTable @register="registerTable">
+    <BasicTable 
+      @register="registerTable"
+      @edit-end="handleEditEnd"
+      @edit-cancel="handleEditCancel"
+      :beforeEditSubmit="beforeEditSubmit"
+    >
       <template #avatar_url="{ record }"> 
-        <img :src="record.avatar_url || headerImg" style="width:55px;height:55px;border-radius: 50%;" />
+        <Tooltip>
+          <template #title>点击更换头像</template>
+          <img :src="record.avatar_url || headerImg" @click="handleAvatar(record)" style="width:55px;height:55px;border-radius: 50%;" />
+        </Tooltip>
       </template>
 
       <template #last_active="{ record }"> 
@@ -15,19 +23,6 @@
 
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 添加账号 </a-button>
-      </template>
-
-      <template #status="{ record }">
-        <template v-if="record.status == 1">
-          <Tag color="green">
-            启用
-          </Tag>
-        </template>
-        <template v-else>
-          <Tag color="red">
-            禁用
-          </Tag>
-        </template>
       </template>
 
       <template #action="{ record }">
@@ -43,6 +38,14 @@
               label: '编辑',
               icon: 'ant-design:edit-outlined',
               onClick: handleEdit.bind(null, record),
+              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+            },
+          ]"
+          :dropDownActions="[
+            {
+              label: '授权',
+              icon: 'ant-design:edit-outlined',
+              onClick: handleAccess.bind(null, record),
               // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
             },
             {
@@ -68,13 +71,15 @@
   <Detail @register="registerDetail" />
   <Edit @register="registerEdit" />
   <Password @register="registerPassword" />
+  <Avatar @register="registerAvatar" />
+  <Access @register="registerAccess" />
 </template>
 
 <script lang="ts">
   import { 
     defineComponent, 
   } from 'vue';
-  import { Tag } from 'ant-design-vue';
+  import { Tooltip, Tag } from 'ant-design-vue';
   import { 
     BasicTable, 
     useTable, 
@@ -87,23 +92,24 @@
   import { 
     useMessage 
   } from '/@/hooks/web/useMessage';
-
-  import headerImg from '/@/assets/images/header.jpg';
+  import { useModal } from '/@/components/Modal';
   
   import { 
     getAdminList,
-    getAdminGroups,
     getAdmin,
     enableAdmin,
     disableAdmin,
     deleteAdmin,
   } from '/@/api/sys/admin';
-
-  import { useModal } from '/@/components/Modal';
+  
   import Detail from './Detail.vue';
   import Edit from './Edit.vue';
   import Password from './Password.vue';
   import Create from './Create.vue';
+  import Avatar from './Avatar.vue';
+  import Access from './Access.vue';
+
+  import headerImg from '/@/assets/images/header.jpg';
 
   import { tableColumns, getFormConfig } from './data/columns';
 
@@ -111,17 +117,24 @@
     components: { 
       BasicTable, 
       Tag, 
+      Tooltip,
       TableAction,
       Create,
       Detail,
       Edit,
       Password,
+      Avatar,
+      Access,
     },
     setup() {
+      const { createMessage } = useMessage();
+
       const [registerCreate, { openModal: openCreate }] = useModal();
       const [registerDetail, { openModal: openDetail }] = useModal();
       const [registerEdit, { openModal: openEdit }] = useModal();
       const [registerPassword, { openModal: openPassword }] = useModal();
+      const [registerAvatar, { openModal: openAvatar }] = useModal();
+      const [registerAccess, { openModal: openAccess }] = useModal();
 
       const [registerTable, { reload }] = useTable({
         title: '管理员',
@@ -131,6 +144,7 @@
         loading: true,
         bordered: true,
         showTableSetting: true,
+        showIndexColumn: true,
         tableSetting: { 
           fullScreen: true, 
         },
@@ -177,7 +191,7 @@
 
         columns: tableColumns,
         actionColumn: {
-          width: 250,
+          width: 170,
           title: '操作',
           dataIndex: 'action',
           slots: { 
@@ -241,6 +255,67 @@
         });
       }
 
+      async function handleEditEnd({ record, index, key, value }: Recordable) {
+        // 编辑状态
+        if (key == "status") {
+          return await StatusSave({ id: record.id, value });
+        }
+
+        return false;
+      }
+
+      // 数据保存
+      function StatusSave({ value, id }) {
+        createMessage.loading({
+          content: `正在保存设置`,
+          key: '_save_status_data',
+          duration: 0,
+        });
+
+        if (value === '') {
+          createMessage.error({
+            content: '状态更新失败',
+            key: '_save_status_data',
+            duration: 2,
+          });
+        } else {
+          if (value == 1) {
+            enableAdmin(id).then(() => {
+              createMessage.success({
+                content: `启用成功`,
+                key: '_save_status_data',
+                duration: 2,
+              });
+            })
+          } else {
+            disableAdmin(id).then(() => {
+              createMessage.success({
+                content: `禁用成功`,
+                key: '_save_status_data',
+                duration: 2,
+              });
+            })
+          }
+        }
+      }
+
+      function beforeEditSubmit({ record, index, key, value }) {
+        return true;
+      }
+
+      function handleEditCancel() {
+      }
+
+      // 更改头像
+      function handleAvatar(record) {
+        openAvatar(true, record);
+      }
+
+      // 授权
+      function handleAccess(record) {
+        openAccess(true, record);
+      }
+
       return {
         headerImg,
 
@@ -263,9 +338,21 @@
         registerEdit,
         openEdit,
 
+        handleAccess,
+        registerAccess,
+        openAccess,
+
         handlePassword,
         registerPassword,
         openPassword,
+
+        handleAvatar,
+        registerAvatar,
+        openAvatar,
+
+        handleEditEnd,
+        handleEditCancel,
+        beforeEditSubmit,
       };
     },
   });
