@@ -15,7 +15,7 @@
 <script lang="ts">
   import { defineComponent, ref, nextTick } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { BasicForm, FormSchema, useForm } from '/@/components/Form/index';
+  import { BasicForm, useForm } from '/@/components/Form/index';
   import { useMessage } from '/@/hooks/web/useMessage';
 
   import { MD5 } from 'crypto-js';
@@ -24,29 +24,7 @@
     updatePassword,
   } from '/@/api/sys/admin';
 
-  const schemas: FormSchema[] = [
-    {
-      field: 'id',
-      component: 'Input',
-      label: '账号ID',
-      defaultValue: '',
-      dynamicDisabled: true,
-    },
-    {
-      field: 'password',
-      label: '新的密码',
-      component: 'StrengthMeter',
-      componentProps: {
-        placeholder: '新密码',
-      },
-      rules: [
-        {
-          required: true,
-          message: '请输入新密码',
-        },
-      ],
-    },
-  ];
+  import { schemas } from './data/password';
   
   export default defineComponent({
     components: { 

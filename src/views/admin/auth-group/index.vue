@@ -6,13 +6,6 @@
       @edit-cancel="handleEditCancel"
       :beforeEditSubmit="beforeEditSubmit"
     >
-      <template #avatar_url="{ record }"> 
-        <Tooltip>
-          <template #title>点击更换头像</template>
-          <img :src="record.avatar_url || nopic" @click="handleAvatar(record)" style="width:55px;height:55px;border-radius: 50%;" />
-        </Tooltip>
-      </template>
-
       <template #last_active="{ record }"> 
         {{ parseTime(record.last_active) }} 
       </template>
@@ -49,12 +42,6 @@
               // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
             },
             {
-              label: '密码',
-              icon: 'ant-design:question-circle-outlined',
-              onClick: handlePassword.bind(null, record),
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
-            },
-            {
               label: '删除',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
@@ -70,8 +57,6 @@
   <Create @register="registerCreate" />
   <Detail @register="registerDetail" />
   <Edit @register="registerEdit" />
-  <Password @register="registerPassword" />
-  <Avatar @register="registerAvatar" />
   <Access @register="registerAccess" />
 </template>
 
@@ -109,12 +94,8 @@
   
   import Detail from './Detail.vue';
   import Edit from './Edit.vue';
-  import Password from './Password.vue';
   import Create from './Create.vue';
-  import Avatar from './Avatar.vue';
   import Access from './Access.vue';
-
-  import nopic from '/@/assets/images/nopic.png';
 
   import { tableColumns, getFormConfig } from './data/index';
 
@@ -127,8 +108,6 @@
       Create,
       Detail,
       Edit,
-      Password,
-      Avatar,
       Access,
     },
     setup() {
@@ -137,8 +116,6 @@
       const [registerCreate, { openModal: openCreate }] = useModal();
       const [registerDetail, { openModal: openDetail }] = useModal();
       const [registerEdit, { openModal: openEdit }] = useModal();
-      const [registerPassword, { openModal: openPassword }] = useModal();
-      const [registerAvatar, { openModal: openAvatar }] = useModal();
       const [registerAccess, { openModal: openAccess }] = useModal();
 
       const [registerTable, { reload }] = useTable({
@@ -230,16 +207,6 @@
           });
       }
 
-      // 更改密码
-      function handlePassword(record: Recordable) {
-        let id = record.id;
-
-        getAdmin(id)
-          .then(function(data) {
-            openPassword(true, data);
-          });
-      }
-
       // 删除
       function handleDelete(record: Recordable) {
         const { createConfirm, notification } = useMessage();
@@ -311,19 +278,12 @@
       function handleEditCancel() {
       }
 
-      // 更改头像
-      function handleAvatar(record) {
-        openAvatar(true, record);
-      }
-
       // 授权
       function handleAccess(record) {
         openAccess(true, record);
       }
 
       return {
-        nopic,
-
         registerTable,
 
         parseTime, 
@@ -346,14 +306,6 @@
         handleAccess,
         registerAccess,
         openAccess,
-
-        handlePassword,
-        registerPassword,
-        openPassword,
-
-        handleAvatar,
-        registerAvatar,
-        openAvatar,
 
         handleEditEnd,
         handleEditCancel,

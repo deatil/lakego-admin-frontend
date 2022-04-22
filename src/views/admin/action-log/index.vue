@@ -69,7 +69,7 @@
   import { 
     tableColumns, 
     getFormConfig 
-  } from './data/columns';
+  } from './data/index';
 
   export default defineComponent({
     components: { 
@@ -135,7 +135,7 @@
 
         columns: tableColumns,
         actionColumn: {
-          width: 250,
+          width: 100,
           title: '操作',
           dataIndex: 'action',
           slots: { 

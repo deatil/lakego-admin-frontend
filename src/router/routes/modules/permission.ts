@@ -24,7 +24,7 @@ const system: AppRouteModule = {
     {
       path: 'auth-rule',
       name: 'AuthRule',
-      component: () => import('/@/views/admin/auth-rule/list/index.vue'),
+      component: () => import('/@/views/admin/auth-group/index.vue'),
       meta: {
         title: "用户组",
       },
@@ -32,7 +32,7 @@ const system: AppRouteModule = {
     {
       path: 'auth-group',
       name: 'AuthGroup',
-      component: () => import('/@/views/admin/auth-group/list/index.vue'),
+      component: () => import('/@/views/admin/auth-rule/index.vue'),
       meta: {
         title: "权限路由",
       },

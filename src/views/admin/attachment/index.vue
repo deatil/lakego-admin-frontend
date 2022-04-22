@@ -84,7 +84,7 @@
   import { useModal } from '/@/components/Modal';
   import Detail from './Detail.vue';
 
-  import { tableColumns, getFormConfig } from './data/columns';
+  import { tableColumns, getFormConfig } from './data/index';
 
   export default defineComponent({
     components: { 
