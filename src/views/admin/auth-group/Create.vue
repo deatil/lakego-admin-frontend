@@ -7,7 +7,9 @@
     @visible-change="handleVisibleChange"
   >
     <div class="pt-3px pr-3px">
-      <BasicForm @register="registerForm" :model="model" />
+      <BasicForm @register="registerForm" :model="model">
+
+      </BasicForm>
     </div>
   </BasicModal>
 </template>
@@ -17,9 +19,12 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { entityToString } from '/@/utils/index';
 
-  import { useUserStore } from '/@/store/modules/user';
-  import { createAdmin } from '/@/api/sys/admin';
+  import { 
+    getAuthGroupChildren,
+    createAuthGroup 
+  } from '/@/api/sys/auth-group';
   import { schemas } from './data/create';
   
   export default defineComponent({
@@ -32,7 +37,6 @@
     },
     setup(props) {
       const { createMessage } = useMessage();
-      const userStore = useUserStore();
       
       const modelRef = ref({});
 
@@ -50,15 +54,33 @@
         submitFunc: handleOk,
       });
 
-      const [register, { closeModal }] = useModalInner((data) => {
+      const [register, { closeModal }] = useModalInner(async (data) => {
         data && onDataReceive(data);
 
-        const { groups } = userStore.getUserInfo || {};
+        let parents = await getAuthGroupChildren({
+          "type": "list",
+          "id": "0",
+        });
 
-        const treeData = groups;
+        let parentOptions = [
+          { key: '0', value: '0', label: '顶级权限' }
+        ]
+
+        const all = parents.list;
+
+        all.forEach(item => {
+          parentOptions.push({
+            key: item.id,
+            value: item.id,
+            label: entityToString(item.spacer) + ' ' + item.title,
+          });
+        });
+
         updateSchema({
-          field: 'group_id',
-          componentProps: { treeData },
+          field: 'parentid',
+          componentProps: { 
+            options: parentOptions,
+           },
         });
       });
 
@@ -67,15 +89,17 @@
         try {
           const data = await validate();
 
-          createAdmin({
-            "group_id": data.group_id,
-            "name": data.name,
-            "nickname": data.nickname,
-            "email": data.email,
-            "introduce": data.introduce,
+          createAuthGroup({
+            "parentid": data.parentid,
+            "title": data.title,
+            "method": data.method,
+            "url": data.url,
+            "slug": data.slug,
+            "description": data.description,
+            "listorder": data.listorder,
             "status": data.status,
           }).then(() => {
-            createMessage.success('账号添加成功！');
+            createMessage.success('用户组添加成功！');
 
             modelRef.value = [];
             closeModal();

@@ -2,30 +2,95 @@ import { FormSchema } from '/@/components/Form/index';
 
 export const schemas: FormSchema[] = [
   {
-    field: 'name',
-    component: 'Input',
-    label: '登录账号',
+    field: 'parentid',
+    component: 'Select',
+    componentProps: {
+      options: [], 
+      // defalut [],
+      placeholder: '请选择父级菜单',
+    },
+    label: '父级菜单',
     defaultValue: '',
     required: true,
   },
   {
-    field: 'nickname',
+    field: 'title',
     component: 'Input',
-    label: '账号昵称',
+    label: '名称',
     defaultValue: '',
     required: true,
   },
   {
-    field: 'email',
+    field: 'method',
+    component: 'Select',
+    label: '请求类型',
+    defaultValue: '',
+    componentProps: {
+      options: [
+        {
+          label: 'GET',
+          value: 'GET',
+          key: 'GET',
+        },
+        {
+          label: 'HEAD',
+          value: 'HEAD',
+          key: 'HEAD',
+        },
+        {
+          label: 'POST',
+          value: 'POST',
+          key: 'POST',
+        },
+        {
+          label: 'PUT',
+          value: 'PUT',
+          key: 'PUT',
+        },
+        {
+          label: 'DELETE',
+          value: 'DELETE',
+          key: 'DELETE',
+        },
+        {
+          label: 'PATCH',
+          value: 'PATCH',
+          key: 'PATCH',
+        },
+        {
+          label: 'OPTIONS',
+          value: 'OPTIONS',
+          key: 'OPTIONS',
+        },
+      ],
+    },
+    required: true,
+  },
+  {
+    field: 'url',
     component: 'Input',
-    label: '账号邮箱',
+    label: '请求链接',
     defaultValue: '',
     required: true,
   },
   {
-    field: 'introduce',
+    field: 'slug',
+    component: 'Input',
+    label: '链接标识',
+    defaultValue: '',
+    required: true,
+  },
+  {
+    field: 'description',
     component: 'InputTextArea',
-    label: '简介',
+    label: '描述',
+  },
+  {
+    field: 'listorder',
+    component: 'InputNumber',
+    label: '排序',
+    defaultValue: '',
+    required: true,
   },
   {
     field: 'status',

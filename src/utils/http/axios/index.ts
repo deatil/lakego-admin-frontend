@@ -51,7 +51,6 @@ const transform: AxiosTransform = {
     }
 
     // 错误的时候返回
-
     let resData = res.data;
     if (!resData) {
       // return '[HTTP] Request has no return value';
@@ -62,7 +61,7 @@ const transform: AxiosTransform = {
     // 需要在 types.ts 内修改为项目自己的接口返回格式
     const { code, data, message } = resData;
 
-    // 这里逻辑可以根据项目进行修改
+    // 成功
     const hasSuccess = resData 
       && Reflect.has(resData, 'code') 
       && code === ResultEnum.SUCCESS;
@@ -78,11 +77,13 @@ const transform: AxiosTransform = {
         }).then(() => {
           subscribers.forEach((callback) => {
             callback()
-          })
-          isRefreshing = true
+          });
+
+          isRefreshing = true;
         })
       }
-      isRefreshing = false
+
+      isRefreshing = false;
 
       return new Promise((resolve) => {
         subscribers.push(() => {

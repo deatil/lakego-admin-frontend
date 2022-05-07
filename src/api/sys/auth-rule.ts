@@ -24,11 +24,10 @@ export function getAuthRuleList(params: any, mode: ErrorMessageMode = 'modal') {
 /**
  * @description: 获取权限菜单树
  */
-export function getAuthRuleTree(params: any, mode: ErrorMessageMode = 'modal') {
+export function getAuthRuleTree(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<any>(
     { 
       url: '/auth/rule/tree',
-      params,
     },
     {
       errorMessageMode: mode,

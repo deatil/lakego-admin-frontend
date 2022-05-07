@@ -24,6 +24,7 @@
         ref="treeRef" 
         :checkable="true"
         :replaceFields="{ key: 'id' }"
+        @check="onCheck"
         />
     </div>
   </BasicModal>
@@ -36,8 +37,8 @@
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree/index';
   import { useMessage } from '/@/hooks/web/useMessage';
 
-  import { getAdmin, updateAccess } from '/@/api/sys/admin';
-  import { getAuthGroupTree } from '/@/api/sys/auth-group';
+  import { getAuthGroup, updateAccess } from '/@/api/sys/auth-group';
+  import { getAuthRuleTree } from '/@/api/sys/auth-rule';
 
   export default defineComponent({
     components: {
@@ -56,6 +57,8 @@
       const modelRef = ref({});
       const tipRef = ref("");
 
+      const checkedKeyData = ref({});
+
       const [register, { closeModal }] = useModalInner((data) => {
         data && onDataReceive(data);
       });
@@ -69,9 +72,24 @@
       }
 
       async function fetch() {
-        await getAuthGroupTree().then((res) => {
+        await getAuthRuleTree().then((res) => {
           treeData.value = res.list as unknown as TreeItem[];
         })
+      }
+
+      // 权限树的反显
+      function dataShow(dataList, dataArr, result = []) {
+        dataList.find((item) => {
+          if (dataArr.includes(item.id) && !item.children) {
+            result.push(item.id);
+          }
+          
+          if (item.children) {
+            dataShow(item.children, dataArr, result);
+          }
+        })
+        
+        return result;
       }
 
       async function onDataReceive(data) {
@@ -79,17 +97,20 @@
 
         let defaultKeys = [];
 
-        await getAdmin(data.id).then((res) => {
-          res.groups.forEach(item => {
-            defaultKeys.push(item.id);
+        await getAuthGroup(data.id).then((res) => {
+          res.rule_accesses.forEach(item => {
+            defaultKeys.push(item);
           });
         });
+
+        // 格式化反选
+        defaultKeys = dataShow(treeData.value, defaultKeys)
 
         getTree().setCheckedKeys(defaultKeys);
 
         modelRef.value = data;
 
-        tipRef.value = "当前正在编辑账号【" + data.name + "】的权限";
+        tipRef.value = "当前正在编辑用户组【" + data.title + "】的权限";
       }
 
       function handleVisibleChange(v) {
@@ -97,10 +118,15 @@
       }
 
       async function handleOk() {
-        const keys = getTree().getSelectedKeys();
+        const keys = getTree().getCheckedKeys();
 
-        await updateAccess(modelRef.value.id, keys.join(",")).then(() => {
-            createMessage.success('账号权限修改成功！');
+        const halfChecked = checkedKeyData.value.halfChecked;
+
+        // 合并
+        const ids = keys.join(",") + "," + halfChecked.join(",");
+
+        await updateAccess(modelRef.value.id, ids).then(() => {
+            createMessage.success('用户组权限修改成功！');
 
             modelRef.value = [];
             closeModal();
@@ -117,6 +143,13 @@
         getTree().expandAll(checkAll);
       }
 
+      function onCheck(checkedKeys, info) {
+        checkedKeyData.value = {
+          checked: checkedKeys, 
+          halfChecked: info.halfCheckedKeys
+        }
+      }
+
       return {
         register, 
         treeData,
@@ -127,6 +160,7 @@
         handleVisibleChange,
         checkAll,
         expandAll,
+        onCheck,
       };
     },
   });

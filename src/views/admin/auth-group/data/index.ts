@@ -5,36 +5,26 @@ import { BasicColumn, FormProps } from '/@/components/Table';
  */
 export const tableColumns: BasicColumn[] = [
   {
-    title: '登录账号',
-    dataIndex: 'name',
+    title: '名称',
+    dataIndex: 'title',
+    align: 'left',
+    slots: { 
+      customRender: 'title', 
+    },
+  },
+  {
+    title: '排序',
+    dataIndex: 'listorder',
     width: 100,
-    align: 'left',
-    slots: { 
-      customRender: 'name', 
-    },
+    align: 'center',
+    edit: true,
+    editRule: true,
+    editComponent: 'Input',
   },
   {
-    title: '昵称',
-    dataIndex: 'nickname',
-    width: 120,
-    align: 'left',
-    slots: { 
-      customRender: 'nickname', 
-    },
-  },
-  {
-    title: '最后登录',
-    dataIndex: 'last_active',
-    width: 130,
-    align: 'left',
-    slots: { 
-      customRender: 'last_active', 
-    },
-  },
-  {
-    title: '注册时间',
+    title: '添加时间',
     dataIndex: 'add_time',
-    width: 130,
+    width: 135,
     align: 'left',
     slots: { 
       customRender: 'add_time', 
@@ -43,12 +33,12 @@ export const tableColumns: BasicColumn[] = [
   {
     title: '状态',
     dataIndex: 'status',
+    width: 80,
     edit: true,
     editComponent: 'Switch',
     editValueMap: (value) => {
       return value ? '启用' : '禁用';
     },
-    width: 80,
   },
 ];
 
@@ -63,6 +53,32 @@ export function getFormConfig(): Partial<FormProps> {
         component: 'Input',
         componentProps: {
           placeholder: '请输入关键字',
+        },
+        colProps: {
+          xl: 8,
+          xxl: 4,
+        },
+      },
+      {
+        field: `status`,
+        label: `状态`,
+        component: 'Select',
+        componentProps: {
+          placeholder: '请选择状态',
+          options: [
+            {
+              label: '启用',
+              value: 'open',
+              key: 'open',
+            },
+            {
+              label: '禁用',
+              value: 'close',
+              key: 'close',
+            },
+          ],
+        },
+        itemProps: {
         },
         colProps: {
           xl: 8,
@@ -87,24 +103,14 @@ export function getFormConfig(): Partial<FormProps> {
               key: 'id__ASC',
             },
             {
-              label: '账号倒序',
-              value: 'name__DESC',
-              key: 'name__DESC',
+              label: '名称倒序',
+              value: 'title__DESC',
+              key: 'title__DESC',
             },
             {
-              label: '账号顺序',
-              value: 'name__ASC',
-              key: 'name__ASC',
-            },
-            {
-              label: '最后在线倒序',
-              value: 'last_active__DESC',
-              key: 'last_active__DESC',
-            },
-            {
-              label: '最后在线顺序',
-              value: 'last_active__ASC',
-              key: 'last_active__ASC',
+              label: '名称顺序',
+              value: 'title__ASC',
+              key: 'title__ASC',
             },
             {
               label: '添加时间倒序',
@@ -115,32 +121,6 @@ export function getFormConfig(): Partial<FormProps> {
               label: '添加时间顺序',
               value: 'add_time__ASC',
               key: 'add_time__ASC',
-            },
-          ],
-        },
-        itemProps: {
-        },
-        colProps: {
-          xl: 8,
-          xxl: 4,
-        },
-      },
-      {
-        field: `status`,
-        label: `状态`,
-        component: 'Select',
-        componentProps: {
-          placeholder: '请选择状态',
-          options: [
-            {
-              label: '启用',
-              value: 'open',
-              key: 'open',
-            },
-            {
-              label: '禁用',
-              value: 'close',
-              key: 'close',
             },
           ],
         },

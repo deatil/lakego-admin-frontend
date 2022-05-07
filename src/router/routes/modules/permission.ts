@@ -21,20 +21,40 @@ const system: AppRouteModule = {
         title: "管理员",
       },
     },
+
     {
-      path: 'auth-rule',
-      name: 'AuthRule',
+      path: 'auth-group',
+      name: 'AuthGroup',
       component: () => import('/@/views/admin/auth-group/index.vue'),
       meta: {
         title: "用户组",
       },
     },
     {
-      path: 'auth-group',
-      name: 'AuthGroup',
+      path: 'auth-group-tree',
+      name: 'AuthGroupTree',
+      component: () => import('/@/views/admin/auth-group/tree.vue'),
+      meta: {
+        title: "用户组结构",
+        hideMenu: true,
+      },
+    },
+
+    {
+      path: 'auth-rule',
+      name: 'AuthRule',
       component: () => import('/@/views/admin/auth-rule/index.vue'),
       meta: {
         title: "权限路由",
+      },
+    },
+    {
+      path: 'auth-rule-tree',
+      name: 'AuthRuleTree',
+      component: () => import('/@/views/admin/auth-rule/tree.vue'),
+      meta: {
+        title: "权限树结构",
+        hideMenu: true,
       },
     },
   ],

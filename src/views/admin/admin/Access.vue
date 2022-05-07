@@ -23,6 +23,7 @@
         :treeData="treeData" 
         ref="treeRef" 
         :checkable="true"
+        :checkStrictly="true"
         :replaceFields="{ key: 'id' }"
         />
     </div>
@@ -97,7 +98,7 @@
       }
 
       async function handleOk() {
-        const keys = getTree().getSelectedKeys();
+        const keys = getTree().getCheckedKeys();
 
         await updateAccess(modelRef.value.id, keys.join(",")).then(() => {
             createMessage.success('账号权限修改成功！');

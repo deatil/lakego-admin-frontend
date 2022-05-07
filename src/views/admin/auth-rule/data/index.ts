@@ -25,7 +25,7 @@ export const tableColumns: BasicColumn[] = [
   {
     title: '添加时间',
     dataIndex: 'add_time',
-    width: 130,
+    width: 120,
     align: 'left',
     slots: { 
       customRender: 'add_time', 
@@ -71,7 +71,7 @@ export function getFormConfig(): Partial<FormProps> {
       },
       {
         field: `method`,
-        label: `请求方式`,
+        label: `请求类型`,
         component: 'Select',
         componentProps: {
           placeholder: '请选择请求方式',

@@ -44,10 +44,9 @@
       });
 
       function onDataReceive(data) {
-        data.last_active = parseTime(data.last_active, '{y}-{m}-{d} {h}:{i}:{s}');
         data.update_time = parseTime(data.update_time, '{y}-{m}-{d} {h}:{i}:{s}');
         data.add_time = parseTime(data.add_time, '{y}-{m}-{d} {h}:{i}:{s}');
-        data.is_root = (data.is_root == 1) ? '是' : '否';
+        data.status = (data.status == 1) ? '启用' : '禁用';
 
         modelRef.value = data;
       }

@@ -22,7 +22,8 @@
       </template>
 
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate"> 添加账号 </a-button>
+        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加账号 </a-button>
+        <a-button type="primary" preIcon="ant-design:bars-outlined" @click="handleResetPermission"> 同步权限 </a-button>
       </template>
 
       <template #action="{ record }">
@@ -104,7 +105,8 @@
     getAdmin,
     enableAdmin,
     disableAdmin,
-    deleteAdmin
+    deleteAdmin,
+    adminResetPermission
   } from '/@/api/sys/admin';
   
   import Detail from './Detail.vue';
@@ -321,6 +323,24 @@
         openAccess(true, record);
       }
 
+      // 账号权限同步
+      function handleResetPermission(record: Recordable) {
+        const { createConfirm, notification } = useMessage();
+
+        createConfirm({
+          iconType: 'warning',
+          title: () => '提示',
+          content: () => '你确定要同步权限吗？',
+          onOk: async () => {
+            adminResetPermission().then(function() {
+              notification.success({message: '同步权限成功！'});
+              
+              reload();
+            });
+          },
+        });
+      }
+
       return {
         nopic,
 
@@ -338,6 +358,7 @@
         openDetail,
 
         handleDelete,
+        handleResetPermission,
 
         handleEdit,
         registerEdit,

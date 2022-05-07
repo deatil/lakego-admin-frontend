@@ -1,7 +1,6 @@
 <template>
   <div class="p-4">
     <BasicTable 
-      ref="tableRef"
       @register="registerTable"
       @edit-end="handleEditEnd"
       @edit-cancel="handleEditCancel"
@@ -30,10 +29,10 @@
       </template>
 
       <template #toolbar>
-        <a-button type="danger" preIcon="ic:outline-delete-outline" @click="handleClear"> 删除选中 </a-button>
-        
+        <a-button type="primary" @click="expandAll">展开全部</a-button>
+        <a-button type="primary" @click="collapseAll">折叠全部</a-button>
         <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加路由 </a-button>
-        <a-button type="primary" preIcon="ant-design:bars-outlined" @click="handleGotoTree"> 权限树 </a-button>
+        <a-button type="primary" preIcon="ant-design:menu-outlined" @click="handleGotoList"> 列表 </a-button>
       </template>
 
       <template #action="{ record }">
@@ -73,9 +72,7 @@
 
 <script lang="ts">
   import { 
-    ref,
-    unref,
-    defineComponent
+    defineComponent, 
   } from 'vue';
   import { 
     Tooltip, 
@@ -84,8 +81,7 @@
   import { 
     BasicTable, 
     useTable, 
-    TableAction, 
-    TableActionType
+    TableAction 
   } from '/@/components/Table';
   import { 
     parseTime, 
@@ -100,13 +96,12 @@
   import { useGo } from '/@/hooks/web/usePage';
   
   import { 
-    getAuthRuleList,
+    getAuthRuleTree,
     getAuthRule,
     enableAuthRule,
     disableAuthRule,
     deleteAuthRule,
-    sortAuthRule,
-    clearAuthRule
+    sortAuthRule
   } from '/@/api/sys/auth-rule';
   
   import Create from './Create.vue';
@@ -126,7 +121,6 @@
       Edit,
     },
     setup() {
-      const tableRef = ref<Nullable<TableActionType>>(null);
       const { createMessage } = useMessage();
       const go = useGo();
 
@@ -134,23 +128,21 @@
       const [registerDetail, { openModal: openDetail }] = useModal();
       const [registerEdit, { openModal: openEdit }] = useModal();
 
-      const [registerTable, { reload }] = useTable({
+      const [registerTable, { reload, expandAll, collapseAll }] = useTable({
         title: '权限路由',
         titleHelpMessage: '权限路由列表及相关管理',
-        api: getAuthRuleList,
+        api: getAuthRuleTree,
 
+        isTreeTable: true,
         rowSelection: {
           type: 'checkbox',
           getCheckboxProps(record: Recordable) {
             // 第一行（id为0）的选择框禁用
-            /*
             if (record.id === '0') {
               return { disabled: true };
             } else {
               return { disabled: false };
             }
-            */
-           return { disabled: false };
           },
         },
 
@@ -212,14 +204,6 @@
           },
         },
       });
-
-      function getTableAction() {
-        const tableAction = unref(tableRef);
-        if (!tableAction) {
-          throw new Error('tableAction is null');
-        }
-        return tableAction;
-      }
 
       // 添加账号
       function handleCreate() {
@@ -344,30 +328,10 @@
       function handleEditCancel() {
       }
 
-      // 跳转到树结构
-      function handleGotoTree() {
-        const redirect = "/permission/auth-rule-tree";
+      // 跳转到列表
+      function handleGotoList() {
+        const redirect = "/permission/auth-rule";
         go(redirect);
-      }
-
-      // 删除选中
-      function handleClear() {
-        const { createConfirm, notification } = useMessage();
-
-        let ids = getTableAction().getSelectRowKeys();
-
-        createConfirm({
-          iconType: 'warning',
-          title: () => '提示',
-          content: () => '你确定要删除选中路由吗？',
-          onOk: async () => {
-            clearAuthRule(ids.join(",")).then(function() {
-              notification.success({message: '删除成功！'});
-              
-              reload();
-            });
-          },
-        });
       }
 
       function methodFilter(method) {
@@ -384,15 +348,16 @@
       }
 
       return {
-        tableRef,
         methodFilter,
 
         registerTable,
+        expandAll, 
+        collapseAll,
 
         parseTime, 
         renderSize,
 
-        handleGotoTree,
+        handleGotoList,
 
         handleCreate,
         registerCreate,
@@ -411,8 +376,6 @@
         handleEditEnd,
         handleEditCancel,
         beforeEditSubmit,
-
-        handleClear,
       };
     },
   });

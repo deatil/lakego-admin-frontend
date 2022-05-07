@@ -2,45 +2,96 @@ import { FormSchema } from '/@/components/Form/index';
 
 export const schemas: FormSchema[] = [
   {
-    field: 'name',
-    component: 'Input',
-    label: '登录账号',
-    defaultValue: '',
-    required: true,
-  },
-  {
-    field: 'nickname',
-    component: 'Input',
-    label: '账号昵称',
-    defaultValue: '',
-    required: true,
-  },
-  {
-    field: 'email',
-    component: 'Input',
-    label: '账号邮箱',
-    defaultValue: '',
-    required: true,
-  },
-  {
-    field: 'group_id',
-    label: '账号分组',
-    component: 'TreeSelect',
-
+    field: 'parentid',
+    component: 'Select',
     componentProps: {
-      replaceFields: {
-        title: 'title',
-        key: 'id',
-        value: 'id',
-      },
-      getPopupContainer: () => document.body,
+      options: [], 
+      // defalut [],
+      placeholder: '请选择父级菜单',
+    },
+    label: '父级菜单',
+    // slot: 'parentid',
+    defaultValue: '',
+    required: true,
+  },
+  {
+    field: 'title',
+    component: 'Input',
+    label: '名称',
+    defaultValue: '',
+    required: true,
+  },
+  {
+    field: 'method',
+    component: 'Select',
+    label: '请求类型',
+    defaultValue: 'GET',
+    componentProps: {
+      options: [
+        {
+          label: 'GET',
+          value: 'GET',
+          key: 'GET',
+        },
+        {
+          label: 'HEAD',
+          value: 'HEAD',
+          key: 'HEAD',
+        },
+        {
+          label: 'POST',
+          value: 'POST',
+          key: 'POST',
+        },
+        {
+          label: 'PUT',
+          value: 'PUT',
+          key: 'PUT',
+        },
+        {
+          label: 'DELETE',
+          value: 'DELETE',
+          key: 'DELETE',
+        },
+        {
+          label: 'PATCH',
+          value: 'PATCH',
+          key: 'PATCH',
+        },
+        {
+          label: 'OPTIONS',
+          value: 'OPTIONS',
+          key: 'OPTIONS',
+        },
+      ],
     },
     required: true,
   },
   {
-    field: 'introduce',
+    field: 'url',
+    component: 'Input',
+    label: '请求链接',
+    defaultValue: '',
+    required: true,
+  },
+  {
+    field: 'slug',
+    component: 'Input',
+    label: '链接标识',
+    defaultValue: '',
+    required: true,
+  },
+  {
+    field: 'description',
     component: 'InputTextArea',
-    label: '简介',
+    label: '描述',
+  },
+  {
+    field: 'listorder',
+    component: 'InputNumber',
+    label: '排序',
+    defaultValue: '100',
+    required: true,
   },
   {
     field: 'status',

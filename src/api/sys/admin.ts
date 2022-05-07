@@ -178,3 +178,12 @@ export function adminLogout(refreshToken: string) {
     url: `/admin/logout/${refreshToken}`,
   });
 }
+
+/**
+ * @description: 账号权限同步
+ */
+export function adminResetPermission() {
+  return defHttp.put({ 
+    url: `/admin/reset-permission`,
+  });
+}

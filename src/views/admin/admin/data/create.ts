@@ -26,7 +26,6 @@ export const schemas: FormSchema[] = [
     field: 'group_id',
     label: '账号分组',
     component: 'TreeSelect',
-
     componentProps: {
       replaceFields: {
         title: 'title',

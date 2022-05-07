@@ -6,32 +6,28 @@ export const descSchemas: DescItem[] = [
     label: 'ID',
   },
   {
-    field: 'name',
-    label: '账号',
+    field: 'parentid',
+    label: '父级ID',
   },
   {
-    field: 'nickname',
-    label: '昵称',
+    field: 'title',
+    label: '名称',
   },
   {
-    field: 'email',
-    label: '邮箱',
+    field: 'description',
+    label: '描述',
   },
   {
-    field: 'introduce',
-    label: '简介',
+    field: 'listorder',
+    label: '排序',
   },
   {
-    field: 'is_root',
-    label: '超级管理员',
-  },
-  {
-    field: 'last_active',
-    label: '最后登录',
+    field: 'status',
+    label: '状态',
   },
   {
     field: 'add_time',
-    label: '注册时间',
+    label: '添加时间',
   },
   {
     field: 'update_time',

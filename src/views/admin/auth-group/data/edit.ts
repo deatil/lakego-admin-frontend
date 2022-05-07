@@ -2,30 +2,35 @@ import { FormSchema } from '/@/components/Form/index';
 
 export const schemas: FormSchema[] = [
   {
-    field: 'name',
-    component: 'Input',
-    label: '登录账号',
+    field: 'parentid',
+    component: 'Select',
+    componentProps: {
+      options: [], 
+      // defalut [],
+      placeholder: '请选择父级菜单',
+    },
+    label: '父级菜单',
     defaultValue: '',
     required: true,
   },
   {
-    field: 'nickname',
+    field: 'title',
     component: 'Input',
-    label: '账号昵称',
+    label: '名称',
     defaultValue: '',
     required: true,
   },
   {
-    field: 'email',
-    component: 'Input',
-    label: '账号邮箱',
-    defaultValue: '',
-    required: true,
-  },
-  {
-    field: 'introduce',
+    field: 'description',
     component: 'InputTextArea',
-    label: '简介',
+    label: '描述',
+  },
+  {
+    field: 'listorder',
+    component: 'InputNumber',
+    label: '排序',
+    defaultValue: '',
+    required: true,
   },
   {
     field: 'status',

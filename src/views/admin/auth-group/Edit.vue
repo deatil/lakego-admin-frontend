@@ -17,10 +17,12 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { entityToString } from '/@/utils/index';
 
   import { 
-    updataAdmin,
-  } from '/@/api/sys/admin';
+    getAuthGroupChildren,
+    updataAuthGroup,
+  } from '/@/api/sys/auth-group';
 
   import { schemas } from './data/edit';
   
@@ -35,17 +37,14 @@
     setup(props) {
       const { createMessage } = useMessage();
 
-      const id = ref();
+      const id = ref("");
       const modelRef = ref({});
-
-      const [register, { closeModal }] = useModalInner((data) => {
-        data && onDataReceive(data);
-      });
 
       const [
         registerForm,
         {
           validate,
+          updateSchema,
         },
       ] = useForm({
         layout: "vertical",
@@ -55,19 +54,61 @@
         submitFunc: handleOk,
       });
 
+      const [register, { closeModal }] = useModalInner(async (data) => {
+        data && onDataReceive(data);
+
+        let parents = await getAuthGroupChildren({
+          "type": "list",
+          "id": "0",
+        });
+
+        let childIds = await getAuthGroupChildren({
+          "type": "ids",
+          "id": id.value,
+        });
+
+        let parentOptions = [
+          { key: '0', value: '0', label: '顶级用户组' }
+        ]
+        
+        const all = parents.list;
+        const children = childIds.list;
+
+        children.push(id.value)
+        all.forEach(item => {
+          if (!children.includes(item.id)) {
+            parentOptions.push({
+              key: item.id,
+              value: item.id,
+              label: entityToString(item.spacer) + ' ' + item.title,
+            });
+          }
+        });
+
+        updateSchema({
+          field: 'parentid',
+          componentProps: { 
+            options: parentOptions,
+           },
+        });
+      });
+
       //表单提交
       async function handleOk() {
         try {
           const data = await validate();
 
-          updataAdmin(id.value, {
-            "name": data.name,
-            "nickname": data.nickname,
-            "email": data.email,
-            "introduce": data.introduce,
+          updataAuthGroup(id.value, {
+            "parentid": data.parentid,
+            "title": data.title,
+            "method": data.method,
+            "url": data.url,
+            "slug": data.slug,
+            "description": data.description,
+            "listorder": data.listorder,
             "status": data.status,
           }).then(() => {
-            createMessage.success('账号信息修改成功！');
+            createMessage.success('用户组修改成功！');
 
             modelRef.value = [];
             closeModal();
