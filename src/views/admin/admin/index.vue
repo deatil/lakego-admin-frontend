@@ -22,8 +22,14 @@
       </template>
 
       <template #toolbar>
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加账号 </a-button>
-        <a-button type="primary" preIcon="ant-design:sync-outlined" @click="handleResetPermission"> 同步权限 </a-button>
+        <a-button type="primary" 
+          preIcon="ant-design:plus-outlined" 
+          v-if="hasPermission(['lakego-admin.admin.add'])"
+          @click="handleCreate"> 添加账号 </a-button>
+        <a-button type="primary" 
+          preIcon="ant-design:sync-outlined" 
+          v-if="hasPermission(['lakego-admin.admin.reset-permission'])"
+          @click="handleResetPermission"> 同步权限 </a-button>
       </template>
 
       <template #action="{ record }">
@@ -99,6 +105,8 @@
   import { 
     useModal 
   } from '/@/components/Modal';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  import { Authority } from '/@/components/Authority';
   
   import { 
     getAdminList,
@@ -122,6 +130,7 @@
 
   export default defineComponent({
     components: { 
+      Authority,
       BasicTable, 
       Tag, 
       Tooltip,
@@ -134,6 +143,7 @@
       Access,
     },
     setup() {
+      const { hasPermission } = usePermission();
       const { createMessage } = useMessage();
 
       const [registerCreate, { openModal: openCreate }] = useModal();
@@ -342,6 +352,7 @@
       }
 
       return {
+        hasPermission,
         nopic,
 
         registerTable,

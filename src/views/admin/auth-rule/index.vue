@@ -30,10 +30,19 @@
       </template>
 
       <template #toolbar>
-        <a-button type="danger" preIcon="ic:outline-delete-outline" @click="handleClear"> 删除选中 </a-button>
+        <a-button type="danger" 
+          preIcon="ic:outline-delete-outline" 
+          v-if="hasPermission(['lakego-admin.auth-rule.clear'])"
+          @click="handleClear"> 删除选中 </a-button>
         
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加路由 </a-button>
-        <a-button type="primary" preIcon="ant-design:bars-outlined" @click="handleGotoTree"> 权限树 </a-button>
+        <a-button type="primary" 
+          preIcon="ant-design:plus-outlined" 
+          v-if="hasPermission(['lakego-admin.auth-rule.add'])"
+          @click="handleCreate"> 添加路由 </a-button>
+        <a-button type="primary" 
+          preIcon="ant-design:bars-outlined" 
+          v-if="hasPermission(['lakego-admin.auth-rule.tree'])"
+          @click="handleGotoTree"> 权限树 </a-button>
       </template>
 
       <template #action="{ record }">
@@ -43,13 +52,13 @@
               label: '详情',
               icon: 'ant-design:eye-outlined',
               onClick: handleDetail.bind(null, record),
-              // auth: 'super',
+              auth: 'lakego-admin.auth-rule.detail',
             },
             {
               label: '编辑',
               icon: 'ant-design:edit-outlined',
               onClick: handleEdit.bind(null, record),
-              // auth: 'super',
+              auth: 'lakego-admin.auth-rule.update',
             },
           ]"
           :dropDownActions="[
@@ -57,7 +66,7 @@
               label: '删除',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
-              // auth: 'super',
+              auth: 'lakego-admin.auth-rule.delete',
             },
           ]"
         />
@@ -98,6 +107,7 @@
     useModal 
   } from '/@/components/Modal';
   import { useGo } from '/@/hooks/web/usePage';
+  import { usePermission } from '/@/hooks/web/usePermission';
   
   import { 
     getAuthRuleList,
@@ -129,6 +139,7 @@
       const tableRef = ref<Nullable<TableActionType>>(null);
       const { createMessage } = useMessage();
       const go = useGo();
+      const { hasPermission } = usePermission();
 
       const [registerCreate, { openModal: openCreate }] = useModal();
       const [registerDetail, { openModal: openDetail }] = useModal();
@@ -384,6 +395,7 @@
       }
 
       return {
+        hasPermission,
         tableRef,
         methodFilter,
 

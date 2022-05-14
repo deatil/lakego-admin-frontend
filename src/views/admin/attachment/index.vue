@@ -30,21 +30,21 @@
               icon: 'ant-design:eye-outlined',
               onClick: handleDetail.bind(null, record),
               ifShow: true,
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+              auth: 'lakego-admin.attachment.detail',
             },
             {
               label: '删除',
               icon: 'ant-design:delete-outlined',
               onClick: handleDelete.bind(null, record),
               ifShow: true,
-              // auth: 'super', 
+              auth: 'lakego-admin.attachment.delete', 
             },
             {
               label: '下载',
               icon: 'ant-design:download-outlined',
               onClick: handleDownload.bind(null, record),
               ifShow: true,
-              // auth: 'super', 
+              auth: ['lakego-admin.attachment.downcode', 'lakego-admin.attachment.download'], 
             },
           ]"
         />

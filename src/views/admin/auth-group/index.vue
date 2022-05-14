@@ -29,8 +29,14 @@
       </template>
 
       <template #toolbar>
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加用户组 </a-button>
-        <a-button type="primary" preIcon="ant-design:bars-outlined" @click="handleGotoTree"> 用户组树 </a-button>
+        <a-button type="primary" 
+          preIcon="ant-design:plus-outlined" 
+          v-if="hasPermission(['lakego-admin.auth-group.add'])"
+          @click="handleCreate"> 添加用户组 </a-button>
+        <a-button type="primary" 
+          preIcon="ant-design:bars-outlined" 
+          v-if="hasPermission(['lakego-admin.auth-group.tree'])"
+          @click="handleGotoTree"> 用户组树 </a-button>
       </template>
 
       <template #action="{ record }">
@@ -40,13 +46,13 @@
               label: '详情',
               icon: 'ant-design:eye-outlined',
               onClick: handleDetail.bind(null, record),
-              // auth: 'super',
+              auth: 'lakego-admin.auth-group.detail',
             },
             {
               label: '编辑',
               icon: 'ant-design:edit-outlined',
               onClick: handleEdit.bind(null, record),
-              // auth: 'super',
+              auth: 'lakego-admin.auth-group.update',
             },
           ]"
           :dropDownActions="[
@@ -54,13 +60,13 @@
               label: '授权',
               icon: 'ant-design:edit-outlined',
               onClick: handleAccess.bind(null, record),
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+              auth: 'lakego-admin.auth-group.access', 
             },
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
-              // auth: 'super',
+              auth: 'lakego-admin.auth-group.delete',
             },
           ]"
         />
@@ -99,6 +105,7 @@
     useModal 
   } from '/@/components/Modal';
   import { useGo } from '/@/hooks/web/usePage';
+  import { usePermission } from '/@/hooks/web/usePermission';
   
   import { 
     getAuthGroupList,
@@ -128,6 +135,7 @@
       Access,
     },
     setup() {
+      const { hasPermission } = usePermission();
       const { createMessage } = useMessage();
       const go = useGo();
 
@@ -348,6 +356,7 @@
       }
 
       return {
+        hasPermission,
         methodFilter,
 
         registerTable,
