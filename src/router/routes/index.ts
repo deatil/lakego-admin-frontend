@@ -5,12 +5,21 @@ import { PAGE_NOT_FOUND_ROUTE, REDIRECT_ROUTE } from '/@/router/routes/basic';
 import { PageEnum } from '/@/enums/pageEnum';
 import { t } from '/@/hooks/web/useI18n';
 
-const modules = import.meta.globEager('./modules/**/*.ts');
-
+// 路由
 const routeModuleList: AppRouteModule[] = [];
 
+const modules = import.meta.globEager('./modules/**/*.ts');
 Object.keys(modules).forEach((key) => {
   const mod = modules[key].default || {};
+  const modList = Array.isArray(mod) ? [...mod] : [mod];
+  routeModuleList.push(...modList);
+});
+
+// 导入插件
+const extensions = import.meta.globEager('/src/extension/**/*/router.ts');
+console.log(extensions);
+Object.keys(extensions).forEach((key) => {
+  const mod = extensions[key].default || {};
   const modList = Array.isArray(mod) ? [...mod] : [mod];
   routeModuleList.push(...modList);
 });

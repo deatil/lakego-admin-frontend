@@ -6,6 +6,8 @@ import { setHtmlPageLang, setLoadLocalePool } from './helper';
 import { localeSetting } from '/@/settings/localeSetting';
 import { useLocaleStoreWithOut } from '/@/store/modules/locale';
 
+import { assiginObj, getFileName } from '/@/utils/index';
+
 const { fallback, availableLocales } = localeSetting;
 
 export let i18n: ReturnType<typeof createI18n>;
@@ -40,5 +42,18 @@ async function createI18nOptions(): Promise<I18nOptions> {
 export async function setupI18n(app: App) {
   const options = await createI18nOptions();
   i18n = createI18n(options) as I18n;
+
   app.use(i18n);
+
+  const { setLocaleMessage, getLocaleMessage } = i18n.global;
+
+  // 加载扩展语言包
+  const extensionLangs = import.meta.globEager('/src/extension/**/*/lang/*.ts');
+  Object.keys(extensionLangs).map(item => {
+    const langName = getFileName(item)
+    const langMessage = extensionLangs[item].default || {}
+  
+    const newLangMessage = assiginObj(getLocaleMessage(langName), langMessage)
+    setLocaleMessage(langName, newLangMessage)
+  })  
 }

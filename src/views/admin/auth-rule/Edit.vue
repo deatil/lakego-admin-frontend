@@ -7,16 +7,30 @@
     @visible-change="handleVisibleChange"
   >
     <div class="pt-3px pr-3px">
-      <BasicForm @register="registerForm" :model="model" />
+      <BasicForm @register="registerForm" :model="model">
+        <template #parentidSelect="{ model, field }">
+          <Select
+            showSearch
+            allowClear
+            placeholder="请选择一个父级"
+            v-model:value="model[field]"
+            optionFilterProp="label"
+            :options="parentIdOptions"
+            :filterOption="parentidSelectFilterOption"
+          />
+        </template>
+      </BasicForm>
     </div>
   </BasicModal>
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, nextTick } from 'vue';
+  import { defineComponent, unref, ref, nextTick, computed } from 'vue';
+  import { Select } from 'ant-design-vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { cloneDeep } from 'lodash-es';
   import { entityToString } from '/@/utils/index';
 
   import { 
@@ -28,6 +42,7 @@
   
   export default defineComponent({
     components: { 
+      Select,
       BasicModal, 
       BasicForm 
     },
@@ -39,6 +54,7 @@
 
       const id = ref("");
       const modelRef = ref({});
+      const parentidOptions = ref([]);
 
       const [
         registerForm,
@@ -85,6 +101,8 @@
           }
         });
 
+        parentidOptions.value = parentOptions;
+
         updateSchema({
           field: 'parentid',
           componentProps: { 
@@ -126,13 +144,29 @@
         v && props.userData && nextTick(() => onDataReceive(props.userData));
       }
 
+      function parentidSelectFilterOption(input, option) {
+        if (option && option.props && option.props.label) {
+          return option.props.label === input || option.props.label.indexOf(input) !== -1
+        } else {
+          return true
+        }
+      }
+
+    const parentIdOptions = computed(() => {
+      return cloneDeep(unref(parentidOptions)).map((op) => {
+        return op;
+      });
+    });
+
       return { 
         register, 
         handleOk,
         schemas, 
         registerForm, 
         model: modelRef, 
-        handleVisibleChange 
+        handleVisibleChange,
+        parentidSelectFilterOption,
+        parentIdOptions
       };
     },
   });

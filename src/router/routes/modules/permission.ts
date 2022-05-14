@@ -8,8 +8,8 @@ const system: AppRouteModule = {
   component: LAYOUT,
   redirect: '/permission/admin',
   meta: {
-    orderNo: 25,
-    icon: 'ion:settings-outline',
+    orderNo: 9925,
+    icon: 'ant-design:layout-outlined',
     title: "权限管理",
   },
   children: [
@@ -18,6 +18,7 @@ const system: AppRouteModule = {
       name: 'Admin',
       component: () => import('/@/views/admin/admin/index.vue'),
       meta: {
+        icon: 'ant-design:user-outlined',
         title: "管理员",
       },
     },
@@ -27,6 +28,7 @@ const system: AppRouteModule = {
       name: 'AuthGroup',
       component: () => import('/@/views/admin/auth-group/index.vue'),
       meta: {
+        icon: 'ant-design:team-outlined',
         title: "用户组",
       },
     },
@@ -35,6 +37,7 @@ const system: AppRouteModule = {
       name: 'AuthGroupTree',
       component: () => import('/@/views/admin/auth-group/tree.vue'),
       meta: {
+        icon: 'ant-design:team-outlined',
         title: "用户组结构",
         hideMenu: true,
       },
@@ -45,6 +48,7 @@ const system: AppRouteModule = {
       name: 'AuthRule',
       component: () => import('/@/views/admin/auth-rule/index.vue'),
       meta: {
+        icon: 'ant-design:table-outlined',
         title: "权限路由",
       },
     },
@@ -53,6 +57,7 @@ const system: AppRouteModule = {
       name: 'AuthRuleTree',
       component: () => import('/@/views/admin/auth-rule/tree.vue'),
       meta: {
+        icon: 'ant-design:table-outlined',
         title: "权限树结构",
         hideMenu: true,
       },

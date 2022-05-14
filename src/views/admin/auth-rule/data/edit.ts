@@ -9,6 +9,7 @@ export const schemas: FormSchema[] = [
       // defalut [],
       placeholder: '请选择父级菜单',
     },
+    slot: 'parentidSelect',
     label: '父级菜单',
     defaultValue: '',
     required: true,
@@ -18,7 +19,12 @@ export const schemas: FormSchema[] = [
     component: 'Input',
     label: '名称',
     defaultValue: '',
-    required: true,
+    rules: [
+      {
+        required: true,
+        message: '请输入名称',
+      },
+    ],
   },
   {
     field: 'method',
@@ -76,7 +82,7 @@ export const schemas: FormSchema[] = [
   {
     field: 'slug',
     component: 'Input',
-    label: '链接标识',
+    label: '链接标识[Slug]',
     defaultValue: '',
     required: true,
   },

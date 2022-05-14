@@ -184,6 +184,16 @@ export function getFormConfig(): Partial<FormProps> {
               key: 'url__ASC',
             },
             {
+              label: '排序倒序',
+              value: 'listorder__DESC',
+              key: 'listorder__DESC',
+            },
+            {
+              label: '排序顺序',
+              value: 'listorder__ASC',
+              key: 'listorder__ASC',
+            },
+            {
               label: '请求方式倒序',
               value: 'method__DESC',
               key: 'method__DESC',

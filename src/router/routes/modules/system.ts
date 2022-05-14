@@ -8,7 +8,7 @@ const system: AppRouteModule = {
   component: LAYOUT,
   redirect: '/system/attachment',
   meta: {
-    orderNo: 20,
+    orderNo: 9920,
     icon: 'ion:settings-outline',
     title: "系统管理",
   },
@@ -18,6 +18,7 @@ const system: AppRouteModule = {
       name: 'Attachment',
       component: () => import('/@/views/admin/attachment/index.vue'),
       meta: {
+        icon: 'ant-design:file-outlined',
         title: "附件管理",
       },
     },

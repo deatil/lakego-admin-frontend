@@ -24,10 +24,6 @@ const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
 const { createMessage, createErrorModal } = useMessage();
 
-// 刷新 token 数据处理
-let subscribers: Function[] = []
-let isRefreshing = true
-
 /**
  * @description: 数据处理，方便区分多种处理方式
  */
@@ -35,7 +31,7 @@ const transform: AxiosTransform = {
   /**
    * @description: 处理请求数据。如果数据不是预期格式，可直接抛出错误
    */
-  transformRequestHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+  transformRequestHook: async (res: AxiosResponse<Result>, options: RequestOptions) => {
     const { t } = useI18n();
     const { isTransformResponse, isReturnNativeResponse } = options;
 
@@ -69,36 +65,26 @@ const transform: AxiosTransform = {
       return data;
     }
 
-    // accessToken 过期处理
-    if (code == ResultEnum.JwtAccessTokenFail) {
-      if (isRefreshing) {
-        useUserStore().refreshToken({
-          mode: 'modal',
-        }).then(() => {
-          subscribers.forEach((callback) => {
-            callback()
-          });
-
-          isRefreshing = true;
-        })
-      }
-
-      isRefreshing = false;
-
-      return new Promise((resolve) => {
-        subscribers.push(() => {
-          resolve(createAxios({
-            requestOptions: options
-          }));
-        })
-      })
-    }
-
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
     const userStore = useUserStoreWithOut();
     switch (code) {
+      // accessToken 过期处理
+      case ResultEnum.JwtAccessTokenFail:
+        // 刷新后重新请求并返回
+        let res;
+
+        await useUserStore().refreshToken({
+          mode: 'modal',
+        }).then(() => {
+          res = createAxios({
+            requestOptions: options
+          });
+        })
+  
+        return res;
+
       // 刷新 token 过期，重新登陆
       case ResultEnum.JwtRefreshTokenFail:
         userStore.setToken(undefined);
@@ -109,6 +95,7 @@ const transform: AxiosTransform = {
           userStore.logout(true);
         }
         break;
+        
       default:
         if (message) {
           timeoutMsg = message;

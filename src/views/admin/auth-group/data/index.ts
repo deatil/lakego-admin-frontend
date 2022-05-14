@@ -15,7 +15,7 @@ export const tableColumns: BasicColumn[] = [
   {
     title: '排序',
     dataIndex: 'listorder',
-    width: 100,
+    width: 110,
     align: 'center',
     edit: true,
     editRule: true,
@@ -24,7 +24,7 @@ export const tableColumns: BasicColumn[] = [
   {
     title: '添加时间',
     dataIndex: 'add_time',
-    width: 135,
+    width: 155,
     align: 'left',
     slots: { 
       customRender: 'add_time', 
@@ -111,6 +111,16 @@ export function getFormConfig(): Partial<FormProps> {
               label: '名称顺序',
               value: 'title__ASC',
               key: 'title__ASC',
+            },
+            {
+              label: '排序倒序',
+              value: 'listorder__DESC',
+              key: 'listorder__DESC',
+            },
+            {
+              label: '排序顺序',
+              value: 'listorder__ASC',
+              key: 'listorder__ASC',
             },
             {
               label: '添加时间倒序',

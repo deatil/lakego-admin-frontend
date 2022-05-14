@@ -77,7 +77,7 @@ export const schemas: FormSchema[] = [
   {
     field: 'slug',
     component: 'Input',
-    label: '链接标识',
+    label: '链接标识[Slug]',
     defaultValue: '',
     required: true,
   },

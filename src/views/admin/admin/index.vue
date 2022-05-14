@@ -23,7 +23,7 @@
 
       <template #toolbar>
         <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加账号 </a-button>
-        <a-button type="primary" preIcon="ant-design:bars-outlined" @click="handleResetPermission"> 同步权限 </a-button>
+        <a-button type="primary" preIcon="ant-design:sync-outlined" @click="handleResetPermission"> 同步权限 </a-button>
       </template>
 
       <template #action="{ record }">
@@ -33,13 +33,13 @@
               label: '详情',
               icon: 'ant-design:eye-outlined',
               onClick: handleDetail.bind(null, record),
-              // auth: 'super',
+              auth: 'lakego-admin.admin.detail', // 根据权限控制是否显示: 有权限，会显示
             },
             {
               label: '编辑',
               icon: 'ant-design:edit-outlined',
               onClick: handleEdit.bind(null, record),
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+              auth: 'lakego-admin.admin.update', 
             },
           ]"
           :dropDownActions="[
@@ -47,19 +47,19 @@
               label: '授权',
               icon: 'ant-design:edit-outlined',
               onClick: handleAccess.bind(null, record),
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+              auth: 'lakego-admin.admin.access',
             },
             {
               label: '密码',
               icon: 'ant-design:question-circle-outlined',
               onClick: handlePassword.bind(null, record),
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+              auth: 'lakego-admin.admin.password', 
             },
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
               onClick: handleDelete.bind(null, record),
-              // auth: 'super', // 根据权限控制是否显示: 有权限，会显示
+              auth: 'lakego-admin.admin.delete', 
             },
           ]"
         />
