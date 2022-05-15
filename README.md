@@ -4,7 +4,7 @@
 
 *  项目基于 `vue-vben-admin` 项目开发
 *  使用 `Vite`, `Vue3`, `Ant-Design-Vue` 开发
-*  本项目为 `lakego-admin` 的前端项目
+*  本项目为 `lakego-admin` 的前端项目，`后台api服务` 可查看 [Lakego Admin](https://github.com/deatil/lakego-admin) 项目
 
 ### 截图预览
 
@@ -20,19 +20,20 @@
                 <img alt="控制台" src="https://user-images.githubusercontent.com/24578855/151192881-72510e1d-88db-4db3-b730-a741fd981fd7.png" />
             </center>
         </td>
+    </tr>
+    <tr>
         <td width="50%">
             <center>
                 <img alt="操作日志" src="https://user-images.githubusercontent.com/24578855/168456599-8401a6ef-9b8a-4fd8-bb30-3978bf4b0ec7.png" />
             </center>
         </td>
-    </tr>
-    
-    <tr>
         <td width="50%">
             <center>
                 <img alt="管理员" src="https://user-images.githubusercontent.com/24578855/168456604-c4dddd71-4b70-496b-ba2e-752e69932571.png" />
             </center>
         </td>
+    </tr>
+    <tr>
         <td width="50%">
             <center>
                 <img alt="用户组" src="https://user-images.githubusercontent.com/24578855/168456611-1f7fcdb6-e2af-4f8f-8572-227cd4096b61.png" />
