@@ -15,9 +15,8 @@ Object.keys(modules).forEach((key) => {
   routeModuleList.push(...modList);
 });
 
-// 导入插件
+// 导入扩展
 const extensions = import.meta.globEager('/src/extension/**/*/router.ts');
-console.log(extensions);
 Object.keys(extensions).forEach((key) => {
   const mod = extensions[key].default || {};
   const modList = Array.isArray(mod) ? [...mod] : [mod];

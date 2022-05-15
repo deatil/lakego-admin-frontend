@@ -98,9 +98,11 @@
       }
 
       async function handleOk() {
-        const keys = getTree().getCheckedKeys();
+        const keys = getTree().getCheckedKeys().checked;
 
-        await updateAccess(modelRef.value.id, keys.join(",")).then(() => {
+        const ids = keys.join(",");
+
+        await updateAccess(modelRef.value.id, ids).then(() => {
             createMessage.success('账号权限修改成功！');
 
             modelRef.value = [];

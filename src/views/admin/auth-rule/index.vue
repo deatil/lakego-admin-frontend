@@ -9,16 +9,16 @@
     >
       <template #url="{ record }"> 
         <div class="rule-method">
-          <Tag :color="methodFilter(record.method)">
-            {{ record.method }}
+          <Tag color="default">
+            {{ record.slug }}
           </Tag>
-          <span class="ml-1">
-            <Tag color="default">
-              {{ record.slug }}
-            </Tag>
-          </span>
         </div>
         <div class="rule-url mt-1">
+          <span class="mr-1">
+            <Tag :color="methodFilter(record.method)">
+              {{ record.method }}
+            </Tag>
+          </span>
           <Tag color="pink">
             {{ record.url }}
           </Tag>
@@ -54,14 +54,14 @@
               onClick: handleDetail.bind(null, record),
               auth: 'lakego-admin.auth-rule.detail',
             },
+          ]"
+          :dropDownActions="[
             {
               label: '编辑',
               icon: 'ant-design:edit-outlined',
               onClick: handleEdit.bind(null, record),
               auth: 'lakego-admin.auth-rule.update',
             },
-          ]"
-          :dropDownActions="[
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
@@ -215,7 +215,7 @@
 
         columns: tableColumns,
         actionColumn: {
-          width: 170,
+          width: 100,
           title: '操作',
           dataIndex: 'action',
           slots: { 

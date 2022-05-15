@@ -73,6 +73,13 @@ export const schemas: FormSchema[] = [
     label: '请求链接',
     defaultValue: '',
     required: true,
+    helpMessage: ['请求链接不需要设置已设置的前缀'],
+    renderComponentContent: () => {
+      return {
+        prefix: () => 'admin-api',
+        suffix: () => '',
+      };
+    },
   },
   {
     field: 'slug',
