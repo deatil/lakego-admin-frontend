@@ -1,83 +1,88 @@
 <template>
-  <div class="p-4">
-    <BasicTable 
-      ref="tableRef"
-      @register="registerTable"
-      @edit-end="handleEditEnd"
-      @edit-cancel="handleEditCancel"
-      :beforeEditSubmit="beforeEditSubmit"
-    >
-      <template #url="{ record }"> 
-        <div class="rule-method">
-          <Tag color="default">
-            {{ record.slug }}
-          </Tag>
-        </div>
-        <div class="rule-url mt-1">
-          <span class="mr-1">
-            <Tag :color="methodFilter(record.method)">
-              {{ record.method }}
+  <div>
+    <div class="p-4">
+      <BasicTable 
+        ref="tableRef"
+        @register="registerTable"
+        @edit-end="handleEditEnd"
+        @edit-cancel="handleEditCancel"
+        :beforeEditSubmit="beforeEditSubmit"
+      >
+        <template #url="{ record }"> 
+          <div class="rule-method">
+            <Tooltip placement="top" arrowPointAtCenter title="点击复制权限菜单Slug">
+              <Tag color="default" @click="handleCopySlug(record.slug)">
+                {{ record.slug }}
+              </Tag>
+            </Tooltip>
+          </div>
+          <div class="rule-url mt-1">
+            <span class="mr-1">
+              <Tag :color="methodFilter(record.method)">
+                {{ record.method }}
+              </Tag>
+            </span>
+            <Tag color="pink">
+              {{ record.url }}
             </Tag>
-          </span>
-          <Tag color="pink">
-            {{ record.url }}
-          </Tag>
-        </div>
-      </template>
+          </div>
+        </template>
 
-      <template #add_time="{ record }">
-        {{ parseTime(record.add_time) }} 
-      </template>
+        <template #add_time="{ record }">
+          {{ parseTime(record.add_time) }} 
+        </template>
 
-      <template #toolbar>
-        <a-button type="danger" 
-          preIcon="ic:outline-delete-outline" 
-          v-if="hasPermission(['lakego-admin.auth-rule.clear'])"
-          @click="handleClear"> 删除选中 </a-button>
-        
-        <a-button type="primary" 
-          preIcon="ant-design:plus-outlined" 
-          v-if="hasPermission(['lakego-admin.auth-rule.add'])"
-          @click="handleCreate"> 添加路由 </a-button>
-        <a-button type="primary" 
-          preIcon="ant-design:bars-outlined" 
-          v-if="hasPermission(['lakego-admin.auth-rule.tree'])"
-          @click="handleGotoTree"> 权限树 </a-button>
-      </template>
+        <template #toolbar>
+          <a-button type="primary" danger
+            preIcon="ic:outline-delete-outline" 
+            v-if="hasPermission(['lakego-admin.auth-rule.clear'])"
+            @click="handleClear"> 删除选中 </a-button>
+          
+          <a-button type="primary" 
+            preIcon="ant-design:plus-outlined" 
+            v-if="hasPermission(['lakego-admin.auth-rule.create'])"
+            @click="handleCreate"> 添加路由 </a-button>
+          <a-button type="primary" 
+            preIcon="ant-design:bars-outlined" 
+            v-if="hasPermission(['lakego-admin.auth-rule.tree'])"
+            @click="handleGotoTree"> 权限树 </a-button>
+        </template>
 
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              label: '详情',
-              icon: 'ant-design:eye-outlined',
-              onClick: handleDetail.bind(null, record),
-              auth: 'lakego-admin.auth-rule.detail',
-            },
-          ]"
-          :dropDownActions="[
-            {
-              label: '编辑',
-              icon: 'ant-design:edit-outlined',
-              onClick: handleEdit.bind(null, record),
-              auth: 'lakego-admin.auth-rule.update',
-            },
-            {
-              label: '删除',
-              icon: 'ic:outline-delete-outline',
-              onClick: handleDelete.bind(null, record),
-              auth: 'lakego-admin.auth-rule.delete',
-            },
-          ]"
-        />
-      </template>
+        <template #action="{ record }">
+          <TableAction
+            :actions="[
+              {
+                label: '详情',
+                icon: 'ant-design:eye-outlined',
+                onClick: handleDetail.bind(null, record),
+                auth: 'lakego-admin.auth-rule.detail',
+              },
+            ]"
+            :dropDownActions="[
+              {
+                label: '编辑',
+                icon: 'ant-design:edit-outlined',
+                onClick: handleEdit.bind(null, record),
+                auth: 'lakego-admin.auth-rule.update',
+              },
+              {
+                label: '删除',
+                icon: 'ic:outline-delete-outline',
+                onClick: handleDelete.bind(null, record),
+                auth: 'lakego-admin.auth-rule.delete',
+              },
+            ]"
+          />
+        </template>
 
-    </BasicTable>
+      </BasicTable>
+    </div>
+
+    <Create @register="registerCreate" />
+    <Edit @register="registerEdit" />
+    <Detail @register="registerDetail" />
+
   </div>
-
-  <Create @register="registerCreate" />
-  <Edit @register="registerEdit" />
-  <Detail @register="registerDetail" />
 </template>
 
 <script lang="ts">
@@ -108,6 +113,7 @@
   } from '/@/components/Modal';
   import { useGo } from '/@/hooks/web/usePage';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { useCopyToClipboard } from '/@/hooks/web/useCopyToClipboard';
   
   import { 
     getAuthRuleList,
@@ -140,6 +146,7 @@
       const { createMessage } = useMessage();
       const go = useGo();
       const { hasPermission } = usePermission();
+      const { clipboardRef, copiedRef } = useCopyToClipboard();
 
       const [registerCreate, { openModal: openCreate }] = useModal();
       const [registerDetail, { openModal: openDetail }] = useModal();
@@ -394,6 +401,14 @@
         return methodMap[method]
       }
 
+      // 复制
+      function handleCopySlug(data: string) {
+        clipboardRef.value = data;
+        if (unref(copiedRef)) {
+          createMessage.success('复制成功！');
+        }
+      }
+
       return {
         hasPermission,
         tableRef,
@@ -425,6 +440,7 @@
         beforeEditSubmit,
 
         handleClear,
+        handleCopySlug,
       };
     },
   });

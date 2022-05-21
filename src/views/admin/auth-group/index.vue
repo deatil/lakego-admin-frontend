@@ -1,84 +1,91 @@
 <template>
-  <div class="p-4">
-    <BasicTable 
-      @register="registerTable"
-      @edit-end="handleEditEnd"
-      @edit-cancel="handleEditCancel"
-      :beforeEditSubmit="beforeEditSubmit"
-    >
-      <template #url="{ record }"> 
-        <div class="rule-method">
-          <Tag :color="methodFilter(record.method)">
-            {{ record.method }}
-          </Tag>
-          <span class="ml-1">
-            <Tag color="default">
-              {{ record.slug }}
+  <div>
+    <div class="p-4">
+      <BasicTable 
+        @register="registerTable"
+        @edit-end="handleEditEnd"
+        @edit-cancel="handleEditCancel"
+        :beforeEditSubmit="beforeEditSubmit"
+      >
+        <template #url="{ record }"> 
+          <div class="rule-method">
+            <Tag :color="methodFilter(record.method)">
+              {{ record.method }}
             </Tag>
-          </span>
-        </div>
-        <div class="rule-url mt-1">
-          <Tag color="pink">
-            {{ record.url }}
-          </Tag>
-        </div>
-      </template>
+            <span class="ml-1">
+              <Tag color="default">
+                {{ record.slug }}
+              </Tag>
+            </span>
+          </div>
+          <div class="rule-url mt-1">
+            <Tag color="pink">
+              {{ record.url }}
+            </Tag>
+          </div>
+        </template>
 
-      <template #add_time="{ record }">
-        {{ parseTime(record.add_time) }} 
-      </template>
+        <template #add_time="{ record }">
+          {{ parseTime(record.add_time) }} 
+        </template>
 
-      <template #toolbar>
-        <a-button type="primary" 
-          preIcon="ant-design:plus-outlined" 
-          v-if="hasPermission(['lakego-admin.auth-group.add'])"
-          @click="handleCreate"> 添加用户组 </a-button>
-        <a-button type="primary" 
-          preIcon="ant-design:bars-outlined" 
-          v-if="hasPermission(['lakego-admin.auth-group.tree'])"
-          @click="handleGotoTree"> 用户组树 </a-button>
-      </template>
+        <template #toolbar>
+          <a-button type="primary" 
+            preIcon="ant-design:plus-outlined" 
+            v-if="hasPermission(['lakego-admin.auth-group.create'])"
+            @click="handleCreate"> 添加用户组 </a-button>
+          <a-button type="primary" 
+            preIcon="ant-design:bars-outlined" 
+            v-if="hasPermission(['lakego-admin.auth-group.tree'])"
+            @click="handleGotoTree"> 用户组树 </a-button>
+          <a-button type="primary" 
+            preIcon="ant-design:sync-outlined" 
+            v-if="hasPermission(['lakego-admin.admin.reset-permission'])"
+            @click="handleResetPermission"> 同步权限 </a-button>
+        </template>
 
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              label: '详情',
-              icon: 'ant-design:eye-outlined',
-              onClick: handleDetail.bind(null, record),
-              auth: 'lakego-admin.auth-group.detail',
-            },
-            {
-              label: '编辑',
-              icon: 'ant-design:edit-outlined',
-              onClick: handleEdit.bind(null, record),
-              auth: 'lakego-admin.auth-group.update',
-            },
-          ]"
-          :dropDownActions="[
-            {
-              label: '授权',
-              icon: 'ant-design:edit-outlined',
-              onClick: handleAccess.bind(null, record),
-              auth: 'lakego-admin.auth-group.access', 
-            },
-            {
-              label: '删除',
-              icon: 'ic:outline-delete-outline',
-              onClick: handleDelete.bind(null, record),
-              auth: 'lakego-admin.auth-group.delete',
-            },
-          ]"
-        />
-      </template>
+        <template #action="{ record }">
+          <TableAction
+            :actions="[
+              {
+                label: '详情',
+                icon: 'ant-design:eye-outlined',
+                onClick: handleDetail.bind(null, record),
+                auth: 'lakego-admin.auth-group.detail',
+              },
+              {
+                label: '编辑',
+                icon: 'ant-design:edit-outlined',
+                onClick: handleEdit.bind(null, record),
+                auth: 'lakego-admin.auth-group.update',
+              },
+            ]"
+            :dropDownActions="[
+              {
+                label: '授权',
+                icon: 'ant-design:edit-outlined',
+                onClick: handleAccess.bind(null, record),
+                auth: 'lakego-admin.auth-group.access', 
+              },
+              {
+                label: '删除',
+                icon: 'ic:outline-delete-outline',
+                onClick: handleDelete.bind(null, record),
+                auth: 'lakego-admin.auth-group.delete',
+              },
+            ]"
+          />
+        </template>
 
-    </BasicTable>
+      </BasicTable>
+    </div>
+
+    <Create @register="registerCreate" />
+    <Edit @register="registerEdit" />
+    <Detail @register="registerDetail" />
+    <Access @register="registerAccess" />
+
   </div>
-
-  <Create @register="registerCreate" />
-  <Edit @register="registerEdit" />
-  <Detail @register="registerDetail" />
-  <Access @register="registerAccess" />
 </template>
 
 <script lang="ts">
@@ -107,6 +114,9 @@
   import { useGo } from '/@/hooks/web/usePage';
   import { usePermission } from '/@/hooks/web/usePermission';
   
+  import { 
+    adminResetPermission
+  } from '/@/api/sys/admin';
   import { 
     getAuthGroupList,
     getAuthGroup,
@@ -355,6 +365,24 @@
         return methodMap[method]
       }
 
+      // 账号权限同步
+      function handleResetPermission(record: Recordable) {
+        const { createConfirm, notification } = useMessage();
+
+        createConfirm({
+          iconType: 'warning',
+          title: () => '提示',
+          content: () => '你确定要同步权限吗？',
+          onOk: async () => {
+            adminResetPermission().then(function() {
+              notification.success({message: '同步权限成功！'});
+              
+              reload();
+            });
+          },
+        });
+      }
+
       return {
         hasPermission,
         methodFilter,
@@ -375,6 +403,7 @@
         openDetail,
 
         handleDelete,
+        handleResetPermission,
 
         handleEdit,
         registerEdit,

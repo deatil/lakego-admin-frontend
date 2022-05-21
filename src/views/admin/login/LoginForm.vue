@@ -38,9 +38,11 @@
         class="fix-auto-fill"
       />
 
-      <div class="login-captcha-image">
-        <img :src="LoginCaptcha.image" @click="handleRefreshCaptcha" />
-      </div>
+      <Tooltip placement="top" arrowPointAtCenter title="点击刷新验证码">
+        <div class="login-captcha-image">
+          <img :src="LoginCaptcha.image" @click="handleRefreshCaptcha" />
+        </div>
+      </Tooltip>
     </FormItem>
 
     <FormItem class="enter-x">
@@ -62,7 +64,7 @@
   import { MD5 } from 'crypto-js';
   import { reactive, ref, unref, computed } from 'vue';
 
-  import { Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
+  import { Form, Input, Tooltip, Row, Col, Button, Divider } from 'ant-design-vue';
 
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -81,8 +83,7 @@
   const { notification, createErrorModal } = useMessage();
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
-
-  const { getLoginState } = useLoginState();
+  
   const { getFormRules } = useFormRules();
 
   const formRef = ref();

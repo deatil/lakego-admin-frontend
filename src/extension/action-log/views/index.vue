@@ -1,41 +1,43 @@
 <template>
-  <div class="p-4">
-    <BasicTable @register="registerTable">
-      <template #method="{ record }">
-        <Tag :color="methodFilter(record.method)">
-          {{ record.method }}
-        </Tag>
-      </template>
+  <div>
+    <div class="p-4">
+      <BasicTable @register="registerTable">
+        <template #method="{ record }">
+          <Tag :color="methodFilter(record.method)">
+            {{ record.method }}
+          </Tag>
+        </template>
 
-      <template #time="{ record }">
-        {{ parseTime(record.time) }} 
-      </template>
+        <template #time="{ record }">
+          {{ parseTime(record.time) }} 
+        </template>
 
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              label: '详情',
-              icon: 'ant-design:eye-outlined',
-              onClick: handleDetail.bind(null, record),
-              ifShow: true,
-              // auth: 'super', 
-            },
-          ]"
-        />
-      </template>
+        <template #action="{ record }">
+          <TableAction
+            :actions="[
+              {
+                label: '详情',
+                icon: 'ant-design:eye-outlined',
+                onClick: handleDetail.bind(null, record),
+                ifShow: true,
+                // auth: 'super', 
+              },
+            ]"
+          />
+        </template>
 
-      <template #toolbar>
-        <a-button type="danger" 
-          preIcon="ant-design:delete-outlined" 
-          v-if="hasPermission(['lakego-admin.action-log.clear'])"
-          @click="handleClearLog">清除日志</a-button>
-      </template>
+        <template #toolbar>
+          <a-button type="primary" danger
+            preIcon="ant-design:delete-outlined" 
+            v-if="hasPermission(['lakego-admin.action-log.clear'])"
+            @click="handleClearLog">清除日志</a-button>
+        </template>
 
-    </BasicTable>
+      </BasicTable>
+    </div>
+
+    <Detail @register="registerDetail" />
   </div>
-
-  <Detail @register="registerDetail" />
 </template>
 
 <script lang="ts">

@@ -110,7 +110,7 @@
 
         modelRef.value = data;
 
-        tipRef.value = "当前正在编辑用户组【" + data.title + "】的权限";
+        tipRef.value = "当前正在编辑用户组【" + data.title + "】的权限。授权后需同步一次权限";
       }
 
       function handleVisibleChange(v) {

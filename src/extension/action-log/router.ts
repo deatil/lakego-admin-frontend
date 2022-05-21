@@ -11,6 +11,9 @@ const system: AppRouteModule = {
     orderNo: 23,
     icon: 'ant-design:book-outlined',
     title: "操作日志",
+    roles: [
+      'lakego-admin.action-log.index',
+    ],
   },
   children: [
     {
@@ -20,6 +23,9 @@ const system: AppRouteModule = {
       meta: {
         icon: 'ant-design:book-twotone',
         title: "操作日志",
+        roles: [
+          'lakego-admin.action-log.index',
+        ],    
       },
     },
   ],

@@ -11,6 +11,13 @@ const system: AppRouteModule = {
     orderNo: 9925,
     icon: 'ant-design:layout-outlined',
     title: "权限管理",
+    roles: [
+      'lakego-admin.admin.index',
+      'lakego-admin.auth-group.index',
+      'lakego-admin.auth-group.tree',
+      'lakego-admin.auth-rule.index',
+      'lakego-admin.auth-rule.tree',
+    ],
   },
   children: [
     {
@@ -19,7 +26,10 @@ const system: AppRouteModule = {
       component: () => import('/@/views/admin/admin/index.vue'),
       meta: {
         icon: 'ant-design:user-outlined',
-        title: "管理员",
+        title: '管理员',
+        roles: [
+          'lakego-admin.admin.index',
+        ],
       },
     },
 
@@ -30,6 +40,9 @@ const system: AppRouteModule = {
       meta: {
         icon: 'ant-design:team-outlined',
         title: "用户组",
+        roles: [
+          'lakego-admin.auth-group.index',
+        ],
       },
     },
     {
@@ -40,6 +53,9 @@ const system: AppRouteModule = {
         icon: 'ant-design:team-outlined',
         title: "用户组结构",
         hideMenu: true,
+        roles: [
+          'lakego-admin.auth-group.tree',
+        ],
       },
     },
 
@@ -50,6 +66,9 @@ const system: AppRouteModule = {
       meta: {
         icon: 'ant-design:table-outlined',
         title: "权限路由",
+        roles: [
+          'lakego-admin.auth-rule.index',
+        ],
       },
     },
     {
@@ -60,6 +79,9 @@ const system: AppRouteModule = {
         icon: 'ant-design:table-outlined',
         title: "权限树结构",
         hideMenu: true,
+        roles: [
+          'lakego-admin.auth-rule.tree',
+        ],
       },
     },
   ],

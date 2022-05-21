@@ -11,7 +11,10 @@ const system: AppRouteModule = {
     orderNo: 9920,
     icon: 'ion:settings-outline',
     title: "系统管理",
-  },
+    roles: [
+      'lakego-admin.attachment.index',
+    ],
+},
   children: [
     {
       path: 'attachment',
@@ -20,6 +23,9 @@ const system: AppRouteModule = {
       meta: {
         icon: 'ant-design:file-outlined',
         title: "附件管理",
+        roles: [
+          'lakego-admin.attachment.index',
+        ],
       },
     },
   ],

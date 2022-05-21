@@ -1,85 +1,87 @@
 <template>
-  <div class="p-4">
-    <BasicTable 
-      @register="registerTable"
-      @edit-end="handleEditEnd"
-      @edit-cancel="handleEditCancel"
-      :beforeEditSubmit="beforeEditSubmit"
-    >
-      <template #avatar_url="{ record }"> 
-        <Tooltip>
-          <template #title>点击更换头像</template>
-          <img :src="record.avatar_url || nopic" @click="handleAvatar(record)" style="width:55px;height:55px;border-radius: 50%;" />
-        </Tooltip>
-      </template>
+  <div>
+    <div class="p-4">
+      <BasicTable 
+        @register="registerTable"
+        @edit-end="handleEditEnd"
+        @edit-cancel="handleEditCancel"
+        :beforeEditSubmit="beforeEditSubmit"
+      >
+        <template #avatar_url="{ record }"> 
+          <Tooltip>
+            <template #title>点击更换头像</template>
+            <img :src="record.avatar_url || nopic" @click="handleAvatar(record)" style="width:55px;height:55px;border-radius: 50%;" />
+          </Tooltip>
+        </template>
 
-      <template #last_active="{ record }"> 
-        {{ parseTime(record.last_active) }} 
-      </template>
+        <template #last_active="{ record }"> 
+          {{ parseTime(record.last_active) }} 
+        </template>
 
-      <template #add_time="{ record }">
-        {{ parseTime(record.add_time) }} 
-      </template>
+        <template #add_time="{ record }">
+          {{ parseTime(record.add_time) }} 
+        </template>
 
-      <template #toolbar>
-        <a-button type="primary" 
-          preIcon="ant-design:plus-outlined" 
-          v-if="hasPermission(['lakego-admin.admin.add'])"
-          @click="handleCreate"> 添加账号 </a-button>
-        <a-button type="primary" 
-          preIcon="ant-design:sync-outlined" 
-          v-if="hasPermission(['lakego-admin.admin.reset-permission'])"
-          @click="handleResetPermission"> 同步权限 </a-button>
-      </template>
+        <template #toolbar>
+          <a-button type="primary" 
+            preIcon="ant-design:plus-outlined" 
+            v-if="hasPermission(['lakego-admin.admin.create'])"
+            @click="handleCreate"> 添加账号 </a-button>
+          <a-button type="primary" 
+            preIcon="ant-design:sync-outlined" 
+            v-if="hasPermission(['lakego-admin.admin.reset-permission'])"
+            @click="handleResetPermission"> 同步权限 </a-button>
+        </template>
 
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              label: '详情',
-              icon: 'ant-design:eye-outlined',
-              onClick: handleDetail.bind(null, record),
-              auth: 'lakego-admin.admin.detail', // 根据权限控制是否显示: 有权限，会显示
-            },
-            {
-              label: '编辑',
-              icon: 'ant-design:edit-outlined',
-              onClick: handleEdit.bind(null, record),
-              auth: 'lakego-admin.admin.update', 
-            },
-          ]"
-          :dropDownActions="[
-            {
-              label: '授权',
-              icon: 'ant-design:edit-outlined',
-              onClick: handleAccess.bind(null, record),
-              auth: 'lakego-admin.admin.access',
-            },
-            {
-              label: '密码',
-              icon: 'ant-design:question-circle-outlined',
-              onClick: handlePassword.bind(null, record),
-              auth: 'lakego-admin.admin.password', 
-            },
-            {
-              label: '删除',
-              icon: 'ic:outline-delete-outline',
-              onClick: handleDelete.bind(null, record),
-              auth: 'lakego-admin.admin.delete', 
-            },
-          ]"
-        />
-      </template>
+        <template #action="{ record }">
+          <TableAction
+            :actions="[
+              {
+                label: '详情',
+                icon: 'ant-design:eye-outlined',
+                onClick: handleDetail.bind(null, record),
+                auth: 'lakego-admin.admin.detail', // 根据权限控制是否显示: 有权限，会显示
+              },
+              {
+                label: '编辑',
+                icon: 'ant-design:edit-outlined',
+                onClick: handleEdit.bind(null, record),
+                auth: 'lakego-admin.admin.update', 
+              },
+            ]"
+            :dropDownActions="[
+              {
+                label: '授权',
+                icon: 'ant-design:edit-outlined',
+                onClick: handleAccess.bind(null, record),
+                auth: 'lakego-admin.admin.access',
+              },
+              {
+                label: '密码',
+                icon: 'ant-design:question-circle-outlined',
+                onClick: handlePassword.bind(null, record),
+                auth: 'lakego-admin.admin.password', 
+              },
+              {
+                label: '删除',
+                icon: 'ic:outline-delete-outline',
+                onClick: handleDelete.bind(null, record),
+                auth: 'lakego-admin.admin.delete', 
+              },
+            ]"
+          />
+        </template>
 
-    </BasicTable>
+      </BasicTable>
+    </div>
+
+    <Create @register="registerCreate" />
+    <Detail @register="registerDetail" />
+    <Edit @register="registerEdit" />
+    <Password @register="registerPassword" />
+    <Avatar @register="registerAvatar" />
+    <Access @register="registerAccess" />
   </div>
-
-  <Create @register="registerCreate" />
-  <Detail @register="registerDetail" />
-  <Edit @register="registerEdit" />
-  <Password @register="registerPassword" />
-  <Avatar @register="registerAvatar" />
-  <Access @register="registerAccess" />
 </template>
 
 <script lang="ts">

@@ -1,59 +1,62 @@
 <template>
-  <div class="p-4">
-    <BasicTable @register="registerTable">
-      <template #size="{ record }"> 
-        {{ renderSize(record.size) }} 
-      </template>
-
-      <template #add_time="{ record }">
-        {{ parseTime(record.add_time) }} 
-      </template>
-
-      <template #status="{ record }">
-        <template v-if="record.status == 1">
-          <Tag color="green">
-            启用
-          </Tag>
+  <div>
+    <div class="p-4">
+      <BasicTable @register="registerTable">
+        <template #size="{ record }"> 
+          {{ renderSize(record.size) }} 
         </template>
-        <template v-else>
-          <Tag color="red">
-            禁用
-          </Tag>
+
+        <template #add_time="{ record }">
+          {{ parseTime(record.add_time) }} 
         </template>
-      </template>
 
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              label: '详情',
-              icon: 'ant-design:eye-outlined',
-              onClick: handleDetail.bind(null, record),
-              ifShow: true,
-              auth: 'lakego-admin.attachment.detail',
-            },
-            {
-              label: '删除',
-              icon: 'ant-design:delete-outlined',
-              onClick: handleDelete.bind(null, record),
-              ifShow: true,
-              auth: 'lakego-admin.attachment.delete', 
-            },
-            {
-              label: '下载',
-              icon: 'ant-design:download-outlined',
-              onClick: handleDownload.bind(null, record),
-              ifShow: true,
-              auth: ['lakego-admin.attachment.downcode', 'lakego-admin.attachment.download'], 
-            },
-          ]"
-        />
-      </template>
+        <template #status="{ record }">
+          <template v-if="record.status == 1">
+            <Tag color="green">
+              启用
+            </Tag>
+          </template>
+          <template v-else>
+            <Tag color="red">
+              禁用
+            </Tag>
+          </template>
+        </template>
 
-    </BasicTable>
+        <template #action="{ record }">
+          <TableAction
+            :actions="[
+              {
+                label: '详情',
+                icon: 'ant-design:eye-outlined',
+                onClick: handleDetail.bind(null, record),
+                ifShow: true,
+                auth: 'lakego-admin.attachment.detail',
+              },
+              {
+                label: '删除',
+                icon: 'ant-design:delete-outlined',
+                onClick: handleDelete.bind(null, record),
+                ifShow: true,
+                auth: 'lakego-admin.attachment.delete', 
+              },
+              {
+                label: '下载',
+                icon: 'ant-design:download-outlined',
+                onClick: handleDownload.bind(null, record),
+                ifShow: true,
+                auth: ['lakego-admin.attachment.downcode', 'lakego-admin.attachment.download'], 
+              },
+            ]"
+          />
+        </template>
+
+      </BasicTable>
+    </div>
+
+    <Detail @register="registerDetail" />
+
   </div>
-
-  <Detail @register="registerDetail" />
 </template>
 
 <script lang="ts">
