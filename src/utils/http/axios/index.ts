@@ -1,7 +1,7 @@
 // axios配置  可自行根据项目进行更改，只需更改该文件即可，其他文件可以不动
 // The axios configuration can be changed according to the project, just change the file, other files can be left unchanged
 
-import type { AxiosResponse } from 'axios';
+import type { AxiosResponse, AxiosRequestConfig } from 'axios';
 import type { RequestOptions, Result } from '/#/axios';
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform';
 import { VAxios } from './Axios';
@@ -31,7 +31,7 @@ const transform: AxiosTransform = {
   /**
    * @description: 处理请求数据。如果数据不是预期格式，可直接抛出错误
    */
-  transformRequestHook: async (res: AxiosResponse<Result>, options: RequestOptions) => {
+  transformRequestHook: async (res: AxiosResponse<Result>, options: RequestOptions, config: AxiosRequestConfig) => {
     const { t } = useI18n();
     const { isTransformResponse, isReturnNativeResponse } = options;
 
@@ -78,9 +78,9 @@ const transform: AxiosTransform = {
         await useUserStore().refreshToken({
           mode: 'modal',
         }).then(() => {
-          res = createAxios({
-            requestOptions: options
-          });
+          options.joinPrefix = false;
+          options.apiUrl = "";
+          res = createAxios().request(config, options);
         })
   
         return res;

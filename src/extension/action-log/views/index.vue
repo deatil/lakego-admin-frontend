@@ -2,6 +2,10 @@
   <div>
     <div class="p-4">
       <BasicTable @register="registerTable">
+        <template #url="{ record }">
+          {{ record.url }}
+        </template>
+
         <template #method="{ record }">
           <Tag :color="methodFilter(record.method)">
             {{ record.method }}
@@ -20,7 +24,6 @@
                 icon: 'ant-design:eye-outlined',
                 onClick: handleDetail.bind(null, record),
                 ifShow: true,
-                // auth: 'super', 
               },
             ]"
           />

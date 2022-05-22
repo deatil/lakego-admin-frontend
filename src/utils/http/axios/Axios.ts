@@ -218,7 +218,7 @@ export class VAxios {
         .then((res: AxiosResponse<Result>) => {
           if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
-              const ret = transformRequestHook(res, opt);
+              const ret = transformRequestHook(res, opt, conf);
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));

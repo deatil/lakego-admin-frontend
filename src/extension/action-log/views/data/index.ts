@@ -5,20 +5,20 @@ import { BasicColumn, FormProps } from '/@/components/Table';
  */
 export const tableColumns: BasicColumn[] = [
   {
-    title: '操作账号',
-    dataIndex: 'name',
-    align: 'left',
-    slots: { 
-      customRender: 'name', 
-    },
-  },
-  {
     title: '请求方法',
     dataIndex: 'method',
     width: 80,
-    align: 'left',
+    align: 'center',
     slots: { 
       customRender: 'method', 
+    },
+  },
+  {
+    title: '访问链接',
+    dataIndex: 'url',
+    align: 'left',
+    slots: { 
+      customRender: 'url', 
     },
   },
   {

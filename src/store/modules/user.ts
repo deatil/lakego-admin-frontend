@@ -222,6 +222,8 @@ export const useUserStore = defineStore({
         mode?: ErrorMessageMode;
       }
     ): Promise<null> {
+      this.setToken(undefined);
+      
       try {
         const {  mode } = params;
 
