@@ -3,8 +3,8 @@
  */
 export enum LakegoEnum {
   // 系统名称
-  TITLE = 'Larke Admin',
+  TITLE = 'Lakego Admin',
   
   // 系统前端版本
-  VERSION = '1.0.1',
+  VERSION = '1.0.2',
 }

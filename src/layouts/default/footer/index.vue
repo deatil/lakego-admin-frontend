@@ -1,7 +1,7 @@
 <template>
   <Footer :class="prefixCls" v-if="getShowLayoutFooter" ref="footerRef">
     <div>
-      Copyright &copy;2021 
+      Copyright &copy;2022 
       <a @click="openWindow(GITHUB_URL)" class="text-secondary">{{ systemName }}</a>
     </div>
   </Footer>
