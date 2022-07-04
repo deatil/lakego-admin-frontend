@@ -8,13 +8,15 @@
 
         <template #action="{ record }">
           <TableAction
-            :dropDownActions="[
+            :actions="[
               {
-                label: '字段',
+                label: '表字段',
                 icon: 'ant-design:eye-outlined',
                 onClick: handleDetail.bind(null, record),
                 ifShow: true,
               },
+            ]"
+            :dropDownActions="[
               {
                 label: '优化',
                 icon: 'ant-design:paper-clip-outlined',
@@ -129,7 +131,7 @@
 
         columns: tableColumns,
         actionColumn: {
-          width: 100,
+          width: 160,
           title: '操作',
           dataIndex: 'action',
           slots: { 

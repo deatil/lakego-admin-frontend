@@ -13,7 +13,7 @@
         show-icon
       />
 
-      <div :class="`${prefixCls}__content`">
+      <div :class="`${prefixCls}__content`" class="mt-18px">
         <a-list :pagination="false">
           <template v-for="item in list" :key="item.id">
             <a-list-item class="list">
@@ -95,6 +95,8 @@
   .list-basic {
     &__content {
       background-color: @component-background;
+      border: 1px solid #d8d8d8;
+      border-radius: 2px;
 
       .info {
         display: inline-block;

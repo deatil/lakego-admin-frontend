@@ -65,7 +65,7 @@
       label: 'CPU 数量',
       field: 'numcpu',
       render: commonTagRender('blue'),
-   },
+    },
     {
       label: '项目地址',
       field: 'lakegoGithub',
@@ -98,7 +98,6 @@
     infoData.goversion = res["version"];
     infoData.numcpu = res["numcpu"];
   });
-
 
   const loading = ref(true);
 

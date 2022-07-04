@@ -198,6 +198,7 @@ export function formatTime(time, option) {
   } else if (diff < 3600 * 24 * 2) {
     return '1天前'
   }
+
   if (option) {
     return parseTime(time, option)
   } else {
@@ -490,7 +491,6 @@ export function getPropertyCount(o) {
 
   return count;
 }
-
 
 /**
  * 获取当前时间

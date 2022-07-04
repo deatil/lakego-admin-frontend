@@ -126,7 +126,7 @@
   import Avatar from './Avatar.vue';
   import Access from './Access.vue';
 
-  import nopic from '/@/assets/images/nopic.png';
+  import nopic from '/@/assets/lakego/avatar-default.jpg';
 
   import { tableColumns, getFormConfig } from './data/index';
 

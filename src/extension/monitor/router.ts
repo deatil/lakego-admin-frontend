@@ -3,29 +3,29 @@ import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 
 const system: AppRouteModule = {
-  path: '/database',
-  name: 'Database',
+  path: '/monitor',
+  name: 'Monitor',
   component: LAYOUT,
-  redirect: '/database/database',
+  redirect: '/monitor/index',
   meta: {
     orderNo: 25,
-    icon: 'ant-design:hdd-outlined',
-    title: "数据库",
+    icon: 'ant-design:book-outlined',
+    title: "系统监控",
     roles: [
-      'lakego-admin.database.index',
+      'lakego-admin.monitor.index',
     ],
   },
   children: [
     {
-      path: 'database',
-      name: 'DatabaseList',
+      path: 'index',
+      name: 'MonitorIndex',
       component: () => import('./views/index.vue'),
       meta: {
-        icon: 'ant-design:hdd-outlined',
-        title: "数据库管理",
+        icon: 'ant-design:book-twotone',
+        title: "服务监控",
         roles: [
-          'lakego-admin.database.index',
-        ],    
+          'lakego-admin.monitor.index',
+        ],
       },
     },
   ],
