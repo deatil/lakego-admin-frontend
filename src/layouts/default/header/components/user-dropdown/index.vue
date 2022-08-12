@@ -4,7 +4,7 @@
       <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
-          {{ getUserInfo.name }}
+          {{ getUserInfo.nickname }}
         </span>
       </span>
     </span>
@@ -80,8 +80,8 @@
       const userStore = useUserStore();
 
       const getUserInfo = computed(() => {
-        const { name = '', avatar, introduce } = userStore.getUserInfo || {};
-        return { name, avatar: avatar || headerImg, introduce };
+        const { name = '', nickname, avatar, introduce } = userStore.getUserInfo || {};
+        return { name, avatar: avatar || headerImg, introduce, nickname };
       });
 
       const [register, { openModal }] = useModal();
