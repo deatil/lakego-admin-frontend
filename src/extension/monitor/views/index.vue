@@ -274,34 +274,50 @@
 
       // 详情
       const monitorInfo = ref({});
-      getMonitorInfo().then(function(data) {
-        monitorInfo.value = data;
 
-        sysinfoData.sysComputerName = data["sysComputerName"];
-        sysinfoData.sysOsName = data["sysOsName"];
-        sysinfoData.sysOsArch = data["sysOsArch"];
-        sysinfoData.sysComputerIp = data["sysComputerIp"];
-        sysinfoData.goVersion = data["goVersion"];
-        sysinfoData.goNowTime = parseTime(data["goNowTime"], '{y}-{m}-{d} {h}:{i}:{s}');
+      // 加载状态
+      const loading = ref(false);
 
-        cpuinfoData.cpuNum = data["cpuNum"];
-        cpuinfoData.cpuUsed = data["cpuUsed"] + "%";
-        cpuinfoData.cpuAvg5 = data["cpuAvg5"] + "%";
-        cpuinfoData.cpuAvg15 = data["cpuAvg15"] + "%";
+      // 刷新数据
+      function refreshInfo() {
+        loading.value = true;
 
-        meminfoData.memTotal = renderSize(data["memTotal"]);
-        meminfoData.memUsed = renderSize(data["memUsed"]);
-        meminfoData.memFree = renderSize(data["memFree"]);
-        meminfoData.memUsage = renderSize(data["memUsage"]);
+        getMonitorInfo().then(function(data) {
+          monitorInfo.value = data;
 
-        tableData.value = data["diskList"]
-      });
+          sysinfoData.sysComputerName = data["sysComputerName"];
+          sysinfoData.sysOsName = data["sysOsName"];
+          sysinfoData.sysOsArch = data["sysOsArch"];
+          sysinfoData.sysComputerIp = data["sysComputerIp"];
+          sysinfoData.goVersion = data["goVersion"];
+          sysinfoData.goNowTime = parseTime(data["goNowTime"], '{y}-{m}-{d} {h}:{i}:{s}');
 
-      const loading = ref(true);
+          cpuinfoData.cpuNum = data["cpuNum"];
+          cpuinfoData.cpuUsed = data["cpuUsed"] + "%";
+          cpuinfoData.cpuAvg5 = data["cpuAvg5"] + "%";
+          cpuinfoData.cpuAvg15 = data["cpuAvg15"] + "%";
 
-      setTimeout(() => {
-        loading.value = false;
-      }, 1500);
+          meminfoData.memTotal = renderSize(data["memTotal"]);
+          meminfoData.memUsed = renderSize(data["memUsed"]);
+          meminfoData.memFree = renderSize(data["memFree"]);
+          meminfoData.memUsage = renderSize(data["memUsage"]);
+
+          tableData.value = data["diskList"];
+
+          loading.value = false;
+        });
+      }
+
+      refreshInfo();
+
+      const setTimeInfo = function() {
+        setTimeout(() => {
+          refreshInfo();
+
+          setTimeInfo();
+        }, 60000);
+      }
+      setTimeInfo();
 
       return {
         hasPermission,
@@ -313,6 +329,7 @@
         cpuinfoRegister,
         meminfoRegister,
 
+        loading,
         tableColumns,
         tableData,
       };
