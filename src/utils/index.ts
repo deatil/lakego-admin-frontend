@@ -363,7 +363,7 @@ export function uppercaseFirst(string) {
  * @param {string} value
  */
 export function renderSize(value) {
-  if (value == null || value == '') {
+  if (value == null || value == '' || value == 0 || value == "0") {
     return '0 Bytes'
   }
   var unitArr = new Array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')
