@@ -22,23 +22,19 @@ export const descSchemas: DescItem[] = [
     label: '状态值',
   },
   {
-    field: 'ip',
-    label: '请求IP',
-  },
-  {
     field: 'time',
     label: '请求时间',
-  },
-  {
-    field: 'useragent',
-    label: '客户端',
   },
   {
     field: 'info',
     label: '请求内容',
   },
   {
-    field: 'time',
-    label: '请求时间',
+    field: 'useragent',
+    label: '客户端',
+  },
+  {
+    field: 'ip',
+    label: '客户端IP',
   },
 ];
