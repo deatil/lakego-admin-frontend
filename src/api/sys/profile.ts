@@ -14,7 +14,7 @@ export function getProfile() {
  */
 export function updateProfile(params) {
   return defHttp.put<any>({ 
-    url: '/profile',
+    url: '/profile/update',
     params,
   });
 }
