@@ -23,7 +23,7 @@
               </Tag>
             </span>
             <Tag color="pink">
-              {{ record.url }}
+              {{ formatUrl(record.url) }}
             </Tag>
           </div>
         </template>
@@ -409,6 +409,11 @@
         }
       }
 
+      // 格式化路由
+      function formatUrl(url: string) {
+        return url;
+      }
+
       return {
         hasPermission,
         tableRef,
@@ -441,6 +446,8 @@
 
         handleClear,
         handleCopySlug,
+
+        formatUrl,
       };
     },
   });

@@ -30,7 +30,7 @@
   import { Icon } from '/@/components/Icon';
   import { groupItems } from './data';
 
-  const moreurl = "https://github.com/deatil/lakego-admin-frontend";
+  const moreurl = "https://github.com/deatil/lakego-admin";
 
   export default defineComponent({
     components: { 

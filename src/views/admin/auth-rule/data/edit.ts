@@ -81,7 +81,7 @@ export const schemas: FormSchema[] = [
     helpMessage: ['请求链接不需要设置已设置的前缀'],
     renderComponentContent: () => {
       return {
-        prefix: () => 'admin-api',
+        prefix: () => '/admin-api',
         suffix: () => '',
       };
     },
