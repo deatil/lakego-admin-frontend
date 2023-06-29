@@ -1,10 +1,10 @@
 {
-  "name": "vben-admin",
+  "name": "lakego-admin",
   "version": "2.7.2",
   "author": {
-    "name": "vben",
-    "email": "anncwb@126.com",
-    "url": "https://github.com/anncwb"
+    "name": "deatil",
+    "email": "deatil@github.com",
+    "url": "https://github.com/deatil"
   },
   "scripts": {
     "bootstrap": "yarn install",

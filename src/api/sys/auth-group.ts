@@ -99,7 +99,7 @@ export function deleteAuthGroup(id: string) {
 }
 
 /**
- * @description: 启用权限分组
+ * @description: 排序
  */
 export function sortAuthGroup(id: string, listorder: string) {
   return defHttp.patch({ 
