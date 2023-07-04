@@ -45,6 +45,7 @@
       function onDataReceive(res) {
         var data = Object.assign({}, res);
 
+        data.keywords = data.keywords.join(",");
         data.authors = JSON.stringify(data.authors);
         data.require = JSON.stringify(data.require);
         data.upgrade = data.upgrade == 1 ? '是' : '否';

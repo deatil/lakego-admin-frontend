@@ -48,7 +48,7 @@
 
         var info = JSON.parse(data.info);
 
-        data.keywords = JSON.stringify(info.keywords);
+        data.keywords = info.keywords.join(",");
         data.description = info.description;
         data.homepage = info.homepage;
         data.authors = JSON.stringify(info.authors);

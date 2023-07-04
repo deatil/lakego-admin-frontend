@@ -158,7 +158,7 @@ export const tableColumnsLocal: BasicColumn[] = [
     },
   },
   {
-    title: '版本',
+    title: '扩展版本',
     dataIndex: 'version',
     align: 'left',
     slots: { 
@@ -166,7 +166,7 @@ export const tableColumnsLocal: BasicColumn[] = [
     },
   },
   {
-    title: '适配版本',
+    title: '适配系统版本',
     dataIndex: 'adaptation',
     align: 'left',
   },

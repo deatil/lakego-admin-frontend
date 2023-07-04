@@ -4,9 +4,12 @@
       <BasicTable @register="registerTable">
         <template #version="{ record }">
           <template v-if="record.install.version != undefined">
-            <Tag color="red">
-              {{ record.install.version }}
-            </Tag>
+            <Tooltip>
+              <template #title>已安装扩展版本</template>
+              <Tag color="red">
+                {{ record.install.version }}
+              </Tag>
+            </Tooltip>
           </template>
 
           {{ record.version }}
@@ -83,7 +86,8 @@
     defineComponent, 
   } from 'vue';
   import { 
-    Tag 
+    Tag,
+    Tooltip, 
   } from 'ant-design-vue';
   import { 
     BasicTable, 
@@ -111,6 +115,7 @@
     components: { 
       BasicTable, 
       Tag, 
+      Tooltip,
       TableAction,
       LocalDetail,
     },
