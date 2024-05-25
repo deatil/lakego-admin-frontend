@@ -100,16 +100,22 @@
       async function handleOk() {
         const keys = getTree().getCheckedKeys().checked;
 
-        const ids = keys.join(",");
+        try {
+          const ids = keys.join(",");
 
-        await updateAccess(modelRef.value.id, ids).then(() => {
+          await updateAccess(modelRef.value.id, ids).then(() => {
             createMessage.success('账号权限修改成功！');
 
             modelRef.value = [];
             closeModal();
           });
 
-        closeModal();
+          closeModal();
+        } catch(e) {
+          createMessage.success('账号权限没有修改！');
+          closeModal();
+          return 
+        }
       }
 
       function checkAll(checkAll: boolean) {

@@ -79,6 +79,8 @@ yarn serve
 yarn build
 ```
 
+`Tips` vue 推荐版本: 3.2.20
+
 ### 特别鸣谢
 
 感谢以下的项目,排名不分先后

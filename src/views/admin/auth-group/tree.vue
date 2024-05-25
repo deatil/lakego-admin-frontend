@@ -1,73 +1,76 @@
 <template>
-  <div class="p-4">
-    <BasicTable 
-      @register="registerTable"
-      @edit-end="handleEditEnd"
-      @edit-cancel="handleEditCancel"
-      :beforeEditSubmit="beforeEditSubmit"
-    >
-      <template #url="{ record }"> 
-        <div class="rule-method">
-          <Tag :color="methodFilter(record.method)">
-            {{ record.method }}
-          </Tag>
-          <span class="ml-1">
-            <Tag color="default">
-              {{ record.slug }}
+  <div>
+    <div class="p-4">
+      <BasicTable 
+        @register="registerTable"
+        @edit-end="handleEditEnd"
+        @edit-cancel="handleEditCancel"
+        :beforeEditSubmit="beforeEditSubmit"
+      >
+        <template #url="{ record }"> 
+          <div class="rule-method">
+            <Tag :color="methodFilter(record.method)">
+              {{ record.method }}
             </Tag>
-          </span>
-        </div>
-        <div class="rule-url mt-1">
-          <Tag color="pink">
-            {{ record.url }}
-          </Tag>
-        </div>
-      </template>
+            <span class="ml-1">
+              <Tag color="default">
+                {{ record.slug }}
+              </Tag>
+            </span>
+          </div>
+          <div class="rule-url mt-1">
+            <Tag color="pink">
+              {{ record.url }}
+            </Tag>
+          </div>
+        </template>
 
-      <template #add_time="{ record }">
-        {{ parseTime(record.add_time) }} 
-      </template>
+        <template #add_time="{ record }">
+          {{ parseTime(record.add_time) }} 
+        </template>
 
-      <template #toolbar>
-        <a-button type="primary" @click="expandAll">展开全部</a-button>
-        <a-button type="primary" @click="collapseAll">折叠全部</a-button>
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加路由 </a-button>
-        <a-button type="primary" preIcon="ant-design:menu-outlined" @click="handleGotoList"> 列表 </a-button>
-      </template>
+        <template #toolbar>
+          <a-button type="primary" @click="expandAll">展开全部</a-button>
+          <a-button type="primary" @click="collapseAll">折叠全部</a-button>
+          <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 添加路由 </a-button>
+          <a-button type="primary" preIcon="ant-design:menu-outlined" @click="handleGotoList"> 列表 </a-button>
+        </template>
 
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              label: '详情',
-              icon: 'ant-design:eye-outlined',
-              onClick: handleDetail.bind(null, record),
-              // auth: 'super',
-            },
-            {
-              label: '编辑',
-              icon: 'ant-design:edit-outlined',
-              onClick: handleEdit.bind(null, record),
-              // auth: 'super',
-            },
-          ]"
-          :dropDownActions="[
-            {
-              label: '删除',
-              icon: 'ic:outline-delete-outline',
-              onClick: handleDelete.bind(null, record),
-              // auth: 'super',
-            },
-          ]"
-        />
-      </template>
+        <template #action="{ record }">
+          <TableAction
+            :actions="[
+              {
+                label: '详情',
+                icon: 'ant-design:eye-outlined',
+                onClick: handleDetail.bind(null, record),
+                // auth: 'super',
+              },
+              {
+                label: '编辑',
+                icon: 'ant-design:edit-outlined',
+                onClick: handleEdit.bind(null, record),
+                // auth: 'super',
+              },
+            ]"
+            :dropDownActions="[
+              {
+                label: '删除',
+                icon: 'ic:outline-delete-outline',
+                onClick: handleDelete.bind(null, record),
+                // auth: 'super',
+              },
+            ]"
+          />
+        </template>
 
-    </BasicTable>
+      </BasicTable>
+    </div>
+
+    <Create @register="registerCreate" />
+    <Edit @register="registerEdit" />
+    <Detail @register="registerDetail" />
+    
   </div>
-
-  <Create @register="registerCreate" />
-  <Edit @register="registerEdit" />
-  <Detail @register="registerDetail" />
 </template>
 
 <script lang="ts">

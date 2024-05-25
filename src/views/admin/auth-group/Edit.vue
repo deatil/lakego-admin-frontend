@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="register"
     @ok="handleOk"
-    title="编辑账号"
+    title="编辑用户组"
     @visible-change="handleVisibleChange"
   >
     <div class="pt-3px pr-3px">

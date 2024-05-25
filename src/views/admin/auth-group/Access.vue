@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="register"
     @ok="handleOk"
-    title="账号授权"
+    title="用户组授权"
     @visible-change="handleVisibleChange"
   >
     <Alert

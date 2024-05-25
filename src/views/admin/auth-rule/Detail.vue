@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="register"
     @ok="handleOk"
-    title="账号详情"
+    title="路由详情"
     @visible-change="handleVisibleChange"
     :showCancelBtn="false"
   >

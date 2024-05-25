@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="register"
     @ok="handleOk"
-    title="添加账号"
+    title="添加路由"
     @visible-change="handleVisibleChange"
   >
     <div class="pt-3px pr-3px">
