@@ -1,6 +1,6 @@
 {
   "name": "lakego-admin",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "author": {
     "name": "deatil",
     "email": "deatil@github.com",
@@ -151,13 +151,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anncwb/vue-vben-admin.git"
+    "url": "git+https://github.com/deatil/lakego-admin-frontend.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/anncwb/vue-vben-admin/issues"
+    "url": "https://github.com/deatil/lakego-admin-frontend/issues"
   },
-  "homepage": "https://github.com/anncwb/vue-vben-admin",
+  "homepage": "https://github.com/deatil/lakego-admin-frontend",
   "engines": {
     "node": "^12 || >=14"
   }
