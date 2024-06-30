@@ -63,20 +63,31 @@ git clone https://github.com/deatil/lakego-admin-frontend.git
 ```bash
 cd lakego-admin-frontend
 
-yarn install
+pnpm install
+```
 
+如果 win 下有执行 scripts 报错，可使用
+
+```bash
+pnpm install --ignore-scripts
+```
+
+- 开发调试
+
+```bash
+pnpm dev
 ```
 
 - 运行
 
 ```bash
-yarn serve
+pnpm serve
 ```
 
 - 打包
 
 ```bash
-yarn build
+pnpm build
 ```
 
 `Tips` vue 推荐版本: 3.2.20

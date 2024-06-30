@@ -1,36 +1,42 @@
 {
   "name": "lakego-admin",
   "version": "2.7.3",
+  "homepage": "https://github.com/deatil/lakego-admin-frontend",
+  "bugs": {
+    "url": "https://github.com/deatil/lakego-admin-frontend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deatil/lakego-admin-frontend.git"
+  },
+  "license": "MIT",
   "author": {
     "name": "deatil",
     "email": "deatil@github.com",
     "url": "https://github.com/deatil"
   },
   "scripts": {
-    "bootstrap": "yarn install",
-    "serve": "npm run dev",
-    "dev": "vite",
-    "build": "cross-env NODE_ENV=production vite build && esno ./build/script/postBuild.ts",
-    "build:test": "cross-env vite build --mode test && esno ./build/script/postBuild.ts",
-    "build:no-cache": "yarn clean:cache && npm run build",
-    "report": "cross-env REPORT=true npm run build",
-    "type:check": "vue-tsc --noEmit --skipLibCheck",
-    "preview": "npm run build && vite preview",
-    "preview:dist": "vite preview",
-    "log": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
-    "clean:lib": "rimraf node_modules",
+    "bootstrap": "pnpm install",
+    "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 pnpm vite build",
+    "build:analyze": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pnpm vite build --mode analyze",
+    "build:docker": "vite build --mode docker",
+    "build:no-cache": "pnpm store prune && npm run build",
+    "build:test": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pnpm vite build --mode test",
+    "commit": "czg",
+    "dev": "pnpm vite",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "turbo run stub",
+    "lint": "turbo run lint",
     "lint:eslint": "eslint --cache --max-warnings 0  \"{src,mock}/**/*.{vue,ts,tsx}\" --fix",
-    "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
-    "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
-    "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
-    "test:unit": "jest",
-    "test:unit-coverage": "jest --coverage",
-    "test:gzip": "npx http-server dist --cors --gzip -c-1",
-    "test:br": "npx http-server dist --cors --brotli -c-1",
-    "reinstall": "rimraf yarn.lock && rimraf package.lock.json && rimraf node_modules && npm run bootstrap",
+    "lint:prettier": "prettier --write .",
+    "lint:stylelint": "stylelint \"**/*.{vue,css,less,scss}\" --fix --cache --cache-location node_modules/.cache/stylelint/",
+    "log": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "prepare": "husky install",
-    "gen:icon": "esno ./build/generate/icon/index.ts"
+    "preview": "npm run build && vite preview",
+    "reinstall": "rimraf pnpm-lock.yaml && rimraf package.lock.json && rimraf node_modules && npm run bootstrap",
+    "serve": "npm run dev",
+    "test:gzip": "npx http-server dist --cors --gzip -c-1",
+    "type:check": "vue-tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
@@ -144,21 +150,33 @@
     "vue-eslint-parser": "^8.0.0",
     "vue-tsc": "^0.28.8"
   },
-  "resolutions": {
-    "//": "Used to install imagemin dependencies, because imagemin may not be installed in China. If it is abroad, you can delete it",
-    "bin-wrapper": "npm:bin-wrapper-china",
-    "rollup": "^2.56.3"
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
+      "prettier --write--parser json"
+    ],
+    "package.json": [
+      "prettier --write"
+    ],
+    "*.vue": [
+      "prettier --write",
+      "eslint --fix",
+      "stylelint --fix"
+    ],
+    "*.{scss,less,styl,html}": [
+      "prettier --write",
+      "stylelint --fix"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/deatil/lakego-admin-frontend.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/deatil/lakego-admin-frontend/issues"
-  },
-  "homepage": "https://github.com/deatil/lakego-admin-frontend",
-  "engines": {
-    "node": "^12 || >=14"
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
   }
 }
