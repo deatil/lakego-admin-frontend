@@ -171,9 +171,9 @@
 }
 .login-captcha-item .login-captcha-image {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  height: 30px;
+  top: 2px;
+  right: 2px;
+  height: 36px;
 }
 .login-captcha-item .login-captcha-image img {
   height: 100%;
