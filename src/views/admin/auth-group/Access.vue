@@ -59,8 +59,6 @@
 
       const checkedKeyData = ref({});
 
-      let defaultKeys = [];
-
       const [register, { closeModal }] = useModalInner((data) => {
         data && onDataReceive(data);
       });
@@ -97,6 +95,8 @@
       async function onDataReceive(data) {
         fetch();
 
+        let defaultKeys = [];
+
         await getAuthGroup(data.id).then((res) => {
           res.rule_accesses.forEach(item => {
             defaultKeys.push(item);
@@ -122,12 +122,12 @@
 
         const halfChecked = checkedKeyData.value.halfChecked;
 
-        let ids
+        let ids;
         if (halfChecked != undefined) {
           // 合并
           ids = keys.join(",") + "," + halfChecked.join(",");
         } else {
-          ids = defaultKeys.join(",")
+          ids = keys.join(",")
         }
 
         await updateAccess(modelRef.value.id, ids).then(() => {

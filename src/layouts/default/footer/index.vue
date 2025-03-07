@@ -1,7 +1,7 @@
 <template>
   <Footer :class="prefixCls" v-if="getShowLayoutFooter" ref="footerRef">
     <div>
-      Copyright &copy;2022 
+      Copyright &copy;{{ copytightTime }} 
       <a @click="openWindow(GITHUB_URL)" class="text-secondary">{{ systemName }}</a>
     </div>
   </Footer>
@@ -45,6 +45,7 @@
       });
 
       const systemName = LakegoEnum.TITLE;
+      const copytightTime = LakegoEnum.COPYRIGHT_TIME;
 
       return {
         getShowLayoutFooter,
@@ -53,6 +54,7 @@
         footerRef,
         openWindow,
         GITHUB_URL,
+        copytightTime,
         systemName,
       };
     },
