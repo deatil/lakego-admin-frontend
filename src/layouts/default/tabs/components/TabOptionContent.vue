@@ -1,11 +1,7 @@
 <template>
   <Dropdown :dropMenuList="getDropMenuList" :trigger="getTrigger" @menuEvent="handleMenuEvent">
     <div :class="`${prefixCls}__info`" @contextmenu="handleContext" v-if="getIsTabs">
-      <span class="ml-1">
-        <Icon :icon="getIcon()" v-if="getIcon()" />
-
-        {{ getTitle }}
-      </span>
+      <span class="ml-1">{{ getTitle }}</span>
     </div>
     <span :class="`${prefixCls}__extra-quick`" v-else @click="handleContext">
       <Icon icon="ion:chevron-down" />
@@ -27,7 +23,7 @@
   import { useTabDropdown } from '../useTabDropdown';
 
   export default defineComponent({
-    name: 'TabContent',
+    name: 'TabOptionContent',
     components: { Dropdown, Icon },
     props: {
       tabItem: {
@@ -44,11 +40,6 @@
         const { tabItem: { meta } = {} } = props;
         return meta && t(meta.title as string);
       });
-
-      function getIcon() {
-        const { tabItem: { meta } = {} } = props;
-        return props.icon || meta?.icon;
-      };
 
       const getIsTabs = computed(() => !props.isExtra);
 
@@ -73,7 +64,6 @@
         getTrigger,
         getIsTabs,
         getTitle,
-        getIcon,
       };
     },
   });

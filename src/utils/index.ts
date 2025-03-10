@@ -532,3 +532,10 @@ export function getNowTime() {
 
   return [nowTime, timeValue]
 }
+
+export function getNowYear() {
+  var dateObj = new Date();
+  var year = dateObj.getFullYear();
+
+  return year;
+}

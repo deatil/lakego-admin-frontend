@@ -20,7 +20,7 @@
 
       <template #tabBarExtraContent v-if="getShowRedo || getShowQuick">
         <TabRedo v-if="getShowRedo" />
-        <TabContent isExtra :tabItem="$route" v-if="getShowQuick" />
+        <TabOptionContent isExtra :tabItem="$route" v-if="getShowQuick" />
         <FoldButton v-if="getShowFold" />
       </template>
     </Tabs>
@@ -33,6 +33,7 @@
 
   import { Tabs } from 'ant-design-vue';
   import TabContent from './components/TabContent.vue';
+  import TabOptionContent from './components/TabOptionContent.vue';
   import FoldButton from './components/FoldButton.vue';
   import TabRedo from './components/TabRedo.vue';
 
@@ -58,6 +59,7 @@
       Tabs,
       TabPane: Tabs.TabPane,
       TabContent,
+      TabOptionContent,
     },
     setup() {
       const affixTextList = initAffixTabs();

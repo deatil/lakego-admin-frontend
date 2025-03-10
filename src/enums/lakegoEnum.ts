@@ -6,8 +6,9 @@ export enum LakegoEnum {
   TITLE = 'Lakego Admin',
   
   // 系统前端版本
-  VERSION = '1.3.0',
+  VERSION = '1.3.1',
   
   // 版权时间
-  COPYRIGHT_TIME = '2025',
+  COPYRIGHT_TIME = "2025",
 }
+

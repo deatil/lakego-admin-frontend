@@ -20,6 +20,7 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/dashboard/index/index.vue'),
       meta: {
         // affix: true,
+        icon: 'ion:grid-outline',
         title: "控制台",
         hideBreadcrumb: true,
       },

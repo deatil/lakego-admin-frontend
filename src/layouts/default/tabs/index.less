@@ -61,6 +61,11 @@ html[data-theme='light'] {
           color: inherit;
           opacity: 0%;
           transition: none;
+          margin-left: 8px;
+
+          svg {
+            width: 0.7em;
+          }
 
           &:hover {
             svg {
@@ -76,6 +81,7 @@ html[data-theme='light'] {
         }
 
         svg {
+          width: 0.9em;
           fill: @text-color-base;
         }
       }
@@ -99,7 +105,6 @@ html[data-theme='light'] {
         }
 
         svg {
-          width: 0.7em;
           fill: @white;
         }
       }
@@ -124,6 +129,12 @@ html[data-theme='light'] {
     }
   }
 
+  .ant-tabs-tab {
+    .anticon {
+      margin-right: 5px;
+    }
+  }
+
   .ant-tabs-extra-content {
     margin-top: 2px;
     line-height: @multiple-height !important;
@@ -135,7 +146,7 @@ html[data-theme='light'] {
 
   &--hide-close {
     .ant-tabs-close-x {
-      opacity: 0% !important;
+      opacity: 50% !important;
     }
   }
 
