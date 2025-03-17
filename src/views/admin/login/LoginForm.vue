@@ -1,7 +1,7 @@
 <template>
   <div class="enter-x">
     <h2 class="mb-3 text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left">
-      登陆
+      系统登陆
     </h2>
   </div>
 
@@ -74,6 +74,9 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   //import { onKeyStroke } from '@vueuse/core';
 
+  import { PageEnum } from '/@/enums/pageEnum';
+  import { router } from '/@/router';
+
   import { captcha } from '/@/api/sys/passport';
   import defaultCaptcha from "/@/assets/lakego/captcha.png";
 
@@ -130,29 +133,33 @@
   // 确认登陆
   async function handleLogin() {
     const data = await validForm();
-
     if (!data) {
       return;
     }
 
     try {
       loading.value = true;
-      const userInfo = await userStore.login({
+
+      await userStore.login({
         password: MD5(data.password).toString(),
         name: data.name,
         captcha: formData.captcha, // 验证码
         captchaKey: LoginCaptcha.key, // 验证码 key
-        goHome: true,
+        goHome: false,
         mode: 'none', // 不要默认的错误提示
+      }).then(userInfo => {
+        if (userInfo) {
+          notification.success({
+            message: t('sys.login.loginSuccessTitle'),
+            description: "登陆成功",
+            duration: 3,
+          });
+
+          setTimeout(() => {
+            router.replace(PageEnum.BASE_HOME);
+          }, 1500);
+        }
       });
-      
-      if (userInfo) {
-        notification.success({
-          message: t('sys.login.loginSuccessTitle'),
-          description: "登陆成功",
-          duration: 3,
-        });
-      }
     } catch (error) {
       createErrorModal({
         title: t('sys.api.errorTip'),

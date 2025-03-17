@@ -146,9 +146,7 @@ export const useUserStore = defineStore({
       this.setRefreshToken('');
       
       this.setRoleList([]);
-
       this.setUserInfo(null);
-
       this.setSessionTimeout(false);
     },
 
@@ -177,7 +175,7 @@ export const useUserStore = defineStore({
         // 页面跳转相关
         this.afterLoginAction(goHome);
 
-        return data
+        return data;
       } catch (error) {
         return Promise.reject(error);
       }
