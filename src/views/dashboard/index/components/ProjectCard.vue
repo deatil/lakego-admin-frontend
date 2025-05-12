@@ -1,8 +1,8 @@
 <template>
-  <Card title="项目" v-bind="$attrs">
+  <Card title="项目信息" v-bind="$attrs">
     <template #extra>
       <a :href="moreurl" target="_blank">
-        <a-button type="link" size="small">更多</a-button>
+        <a-button type="link" size="small">更多></a-button>
       </a>
     </template>
 
@@ -17,7 +17,11 @@
         <div class="flex mt-2 h-10 text-secondary">{{ item.desc }}</div>
 
         <div class="flex justify-between text-secondary">
-          <span>{{ item.group }}</span>
+          <span>
+            <a :href="item.url" target="_blank">
+              {{ item.group }}
+            </a>
+          </span>
           <span>{{ item.date }}</span>
         </div>
       </CardGrid>

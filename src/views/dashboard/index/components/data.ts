@@ -3,6 +3,7 @@ interface GroupItem {
   icon: string;
   color: string;
   desc: string;
+  url: string;
   date: string;
   group: string;
 }
@@ -55,12 +56,13 @@ export const navItems: NavItem[] = [
 
 export const groupItems: GroupItem[] = [
   {
-    title: 'Deatil',
+    title: '开发者',
     icon: 'carbon:logo-github',
     color: '',
-    desc: '项目开发者 github 地址。',
-    group: '开发者',
-    date: '2021-11-28',
+    desc: '项目开发者 Deatil 的 github 地址。',
+    group: 'Deatil',
+    url: 'https://github.com/deatil',
+    date: '2025-5-12',
   },
   {
     title: '前端项目',
@@ -68,7 +70,8 @@ export const groupItems: GroupItem[] = [
     color: '#3fb27f',
     desc: '基于 vue, vite 和 antd 的后台管理系统前端页面。',
     group: 'lakego-frontend',
-    date: '2021-11-28',
+    url: 'https://github.com/deatil/lakego-admin-frontend',
+    date: '2025-5-12',
   },
   {
     title: '后端项目',
@@ -76,6 +79,7 @@ export const groupItems: GroupItem[] = [
     color: '#e18525',
     desc: '基于 gin, rbac 和 jwt 的 go 后端 api 后台管理系统。',
     group: 'lakego-admin',
-    date: '2021-11-28',
+    url: 'https://github.com/deatil/lakego-admin',
+    date: '2025-5-12',
   },
 ];
